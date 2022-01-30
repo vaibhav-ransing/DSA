@@ -149,6 +149,8 @@ public class Main{
                 return null;
             }else if(node.left==null){
                 return node.right;
+            }else if(node.right==null){
+                return node.left;
             }else{
                 node.left = getAndRemove_Max(node.left);
                 node.data = max;
@@ -163,14 +165,39 @@ public class Main{
         return node;
     }
 
-    
-    static class pair{
-        Node node;
-        int state = 0;
-        pair(Node node){
-            this.node = node;
-        }
+    public static int max(Node node){
+        if(node==null)
+            return Integer.MIN_VALUE;
+        int max = node.data;
+        return Math.max(max(node.right), max);
     }
+    public static Node remove2(Node node, int data){
+        if(node==null){
+            return null;
+        }        
+        if(node.data> data){
+            node.left = remove2(node.left, data);
+        }else if(node.data<data){
+            node.right = remove2(node.right, data);
+        }else{
+            if(node.left==null && node.right==null) {
+                return null;
+            }else if(node.right==null){
+                return node.left;
+            }else if(node.left==null){
+                return node.right;
+            }else{
+                int max = max(node.left);
+                node.data = max;
+                return remove(node.left, max);
+            }
+        }
+        return node;
+    }
+
+
+    
+
     public static void printIterative(Node node){
         Stack<pair> list = new Stack<>();
         pair p = new pair(node);
@@ -206,6 +233,145 @@ public class Main{
     }
    
 
+    static int size(Node node){
+        if(node==null)
+            return 0;
+        return 1+ size(node.left) + size(node.right);
+    }
+    static class pair{
+        Node node;
+        int state = 0;
+        pair(Node node){
+            this.node = node;
+        }
+    }
+    public static void findPair(Node node , int data){
+        System.out.println("klasdjf;klasdf");
+        Stack<pair> stackLeft = new Stack<>();
+        pair pLeft = new pair(node);
+        stackLeft.push(pLeft);
+
+        Stack<pair> stackRight = new Stack<>();
+        pair pRight = new pair(node.right);
+        stackRight.push(pRight);
+        System.out.println("askldjtklasf");
+        while(stackLeft.peek().node.data < stackRight.peek().node.data){
+            pair topLeft = stackLeft.peek();
+            pair topRight = stackRight.peek();
+            if(topLeft.node.data + topRight.node.data > data){
+                if(topLeft.state==0){
+                    topLeft.state++;
+                    if(topLeft.node.left!=null){
+                        pair newP = new pair(node.left);
+                        stackLeft.push(newP);
+                    }
+                }else if(topLeft.state==1){
+                    topLeft.state++;
+                    if(topLeft.node.right!=null){
+                        pair newP = new pair(node.right);
+                        stackLeft.push(newP);
+                    }
+                }else{
+                    stackLeft.pop();
+                }
+            }else if(topLeft.node.data + topRight.node.data < data){
+                if(topRight.state==0){
+                    topRight.state++;
+                    if(topRight.node.right!=null){
+                        pair newP = new pair(node.right);
+                        stackRight.push(newP);
+                    }
+                }else if(topRight.state==1){
+                    topRight.state++;
+                    if(topRight.node.left!=null){
+                        pair newP = new pair(node.left);
+                        stackRight.push(newP);
+                    }
+                }else{
+                    stackRight.pop();
+                }
+            }else{
+                System.out.println(topLeft.node.data +" "+ topRight.node.data);
+                // leftStack processed
+                if(topLeft.state==0){
+                    topLeft.state++;
+                    if(topLeft.node.left!=null){
+                        pair newP = new pair(node.left);
+                        stackLeft.push(newP);
+                    }
+                }else if(topLeft.state==1){
+                    topLeft.state++;
+                    if(topLeft.node.right!=null){
+                        pair newP = new pair(node.right);
+                        stackLeft.push(newP);
+                    }
+                }else{
+                    stackLeft.pop();
+                }
+                // rightStack processed
+                if(topRight.state==0){
+                    topRight.state++;
+                    if(topRight.node.right!=null){
+                        pair newP = new pair(node.right);
+                        stackRight.push(newP);
+                    }
+                }else if(topRight.state==1){
+                    topRight.state++;
+                    if(topRight.node.left!=null){
+                        pair newP = new pair(node.left);
+                        stackRight.push(newP);
+                    }
+                }else{
+                    stackRight.pop();
+                }
+            }
+        }
+    }
+
+    // public static void findPair2(Node root , int data){
+    //     Stack<pair> leftStack = new Stack<>();
+    //     pair leftP = new pair(root);
+    //     leftStack.push(leftP);
+
+    //     Stack<pair> rightStack = new Stack<>();
+    //     pair rightP = new pair(root);
+    //     rightStack.push(rightP);
+
+    //     // Node left = getInorder(leftStack);
+    //     // Node right = getReverseInorder(rightStack);
+
+    //     while(left.data < right.data){
+    //         if(left.data + right.data <data){
+
+    //         }else if(left.data + right.data > data){
+
+    //         }else{
+
+    //         }
+    //     }
+
+    // }
+    // public static Node getInorder(Stack<pair> stack){
+    //     pair top = stack.peek();
+    //     if(top.state==0){
+    //         top.state++;
+    //         if(top.node.left!=null){
+    //             pair lp = new pair(top.node.left);
+    //             stack.push(lp);
+    //         }
+    //     }else if(top.state==1){
+    //         top.state++;
+    //         if(top.node.right!=null){
+    //             pair rp = new pair(top.node.right);
+    //             stack.push(lp);
+    //         }
+    //     }else{
+    //         stack.pop();
+    //     }
+    // }
+    // public static Node getReverseInorder(Stack<pair> stack){
+
+    // }
 
 
     public static void main(String[] args) {
@@ -213,5 +379,6 @@ public class Main{
         // int arr[] = {12,25,30,37,50,60,62,70,75,87};
         Node root = construct(arr, 0, arr.length-1);
         // changeTree(root, 0);
+        findPair(root, 60);
     }
 }

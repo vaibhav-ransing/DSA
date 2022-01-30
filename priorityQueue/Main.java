@@ -1,6 +1,7 @@
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.PriorityQueue;
 
 public class Main {
@@ -35,8 +36,8 @@ public class Main {
         // +ve -> this is bigger
         // -ve -> this is smaller
         public int compareTo(Object o){
-            // pair other = (Pair)o; // ye yaad rakhna hai?
-            return this.data - o.data;
+            pair other = (pair)o; // ye yaad rakhna hai?
+            return this.data - other.data;
         }
     }
     public static ArrayList<Integer> mergeKSortedLists(ArrayList<ArrayList<Integer>> lists){
@@ -84,23 +85,73 @@ public class Main {
         }
     }
 
-    public static void find(int arr[], int index, int val, int res){
-        if(index == arr.length)
-            return;
-        if(arr[index]==val){
-            res = index;
-            System.out.println(res);
-            return;
+    public static class MedianPriorityQueue {
+        PriorityQueue<Integer> left;
+        PriorityQueue<Integer> right;
+    
+        public MedianPriorityQueue() {
+            left = new PriorityQueue<>(Collections.reverseOrder());
+            right = new PriorityQueue<>();
         }
-        find(arr, index+1, val, res);
-    }
+    
+        public void add(int val) {
+            if (left.size() == 0 && right.size() == 0) {
+              left.add(val);
+            }
+            else if (left.size() == 1 && right.size() == 0) {
+              if (val > left.peek()) {
+                right.add(val);
+              } else {
+                int rVal = left.remove();
+                left.add(val);
+                right.add(rVal);
+              }
+            }
+            else if (left.size() == right.size()) {
+              if (val < right.peek()) {
+                left.add(val);
+              } else {
+                left.add(right.remove());
+                right.add(val);
+              }
+            }
+            else {
+              if (val > left.peek()) {
+                right.add(val);
+              } else {
+                right.add(left.remove());
+                left.add(val);
+              }
+            }
+          }
+        public int peek() {
+          // write your code here
+          if(left.size()>=right.size()){
+              return left.peek();
+          }else{
+              return right.peek();
+          }
+        }
+    
+        public int remove() {
+          // write your code here
+          if(left.size()>=right.size()){
+            return left.remove();
+        }else{
+            return right.remove();
+        }
+        }
+    
+        public int size() {
+          // write your code here
+          return left.size()+right.size();
+        }
+      }
+    
 
     public static void main(String[] args) {
         // int arr[]  ={44 ,-5, -2 ,41 ,12 ,19 ,21 ,-6 };
         int arr[]  ={10 ,20 ,30,40, 40, 50};
-        int res = -1;
-        find(arr, 0, 40, res);
-        System.out.println(res);
 
     }
 }
