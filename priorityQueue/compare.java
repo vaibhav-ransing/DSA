@@ -1,3 +1,4 @@
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class compare {
@@ -16,14 +17,28 @@ public class compare {
             return this.ht - other.ht;
         }
     }
-  
+    static class compareWithWeight implements Comparator<student>{
+        public int compare(student s1 , student s2){
+            return s1.wt - s2.wt;
+        }
+    }
+
     public static void printStudentSortedToHeight(student arr[]){
         PriorityQueue<student> pq = new PriorityQueue<>();
         for(int i=0;i<arr.length;i++)
             pq.add(arr[i]);
         for(int i=0;i<arr.length;i++){
-            System.out.println(pq.peek().ht);
+            System.out.println(pq.peek().ht+ " "+pq.peek().wt);
             pq.remove();
+        }
+        //  print based on wt
+        System.out.println("print with respect to weight ");
+        PriorityQueue<student> pq2 = new PriorityQueue<>(new compareWithWeight());
+        for(int i=0;i<arr.length;i++)
+            pq2.add(arr[i]);
+        for(int i=0;i<arr.length;i++){
+            System.out.println(pq2.peek().ht+ " "+pq2.peek().wt);
+            pq2.remove();
         }
     }
 
