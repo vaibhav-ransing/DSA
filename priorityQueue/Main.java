@@ -148,10 +148,32 @@ public class Main {
         }
       }
     
+    public static void printSorted(int arr[]){
+
+      PriorityQueue<Integer> pq = new PriorityQueue<>();
+
+      for(int i=0;i<arr.length;i++)
+        pq.add(arr[i]);
+
+      for(int val: pq){
+        System.out.println(val);
+      }
+      System.out.println("-----------");
+      for(int i=0;i<arr.length;i++){
+        System.out.println(pq.peek());
+        pq.remove();
+      }
+      
+      
+
+    }  
 
     public static void main(String[] args) {
         // int arr[]  ={44 ,-5, -2 ,41 ,12 ,19 ,21 ,-6 };
-        int arr[]  ={10 ,20 ,30,40, 40, 50};
+        int arr[]  ={10, 20 ,30, 25};
+        // int arr[]  ={10 ,20 ,30,40, 40, 50};
+        printSorted(arr);
+
 
     }
 }
