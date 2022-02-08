@@ -2,7 +2,17 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class compare {
-    
+    static class Node{
+        int data;
+        Node left;
+        Node right;
+        Node(int val , Node left, Node right){
+            this.data= val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
     static class student implements Comparable<student> {
         String name;
         int ht;
@@ -12,7 +22,6 @@ public class compare {
             this.ht = ht;
             this.wt = wt;
         }
-
         public int compareTo(student other){
             return this.ht - other.ht;
         }
@@ -42,6 +51,16 @@ public class compare {
         }
     }
 
+    public static void leetcode(int pre[] , int inorder[]){
+        Node root = null;
+        int start = 0;
+        int end = pre.length;
+        for(int i=0;i<pre.length;i++){
+            int val = pre[i];
+            
+        }
+        
+    }
     public static void main(String[] args) {
         student[] bacche = new student[3];
         bacche[0] = new student("mudd", 180, 50);
