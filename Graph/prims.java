@@ -1,7 +1,8 @@
 import java.io.*;
+import java.lang.management.ThreadInfo;
 import java.util.*;
 
-public class dikstras {
+public class prims {
    static class Edge {
       int src;
       int nbr;
@@ -13,45 +14,42 @@ public class dikstras {
          this.wt = wt;
       }
    }
-   static class pair implements Comparable<pair> {
-        String psf;
-        int wt;
+
+   static class pair implements Comparable<pair>{ 
         int vertex;
-        pair(int vertex, int wt, String psf){
-            this.vertex = vertex;
+        int pv;
+        int wt;
+        pair(int v,int pv, int wt){
+            this.vertex = v;
+            this.pv = pv;
             this.wt = wt;
-            this.psf = psf;
         }
         public int compareTo(pair o){
-            return this.wt-o.wt;
+            return this.wt - o.wt;
         }
-    }
-    static void dikstrasAlgo(ArrayList<Edge>[] graph, int vtces, int src){
-        boolean visited[] = new boolean[vtces];
-        String ans = "";
-        PriorityQueue<pair> pq = new PriorityQueue<>();
-        pair p =new pair(src, 0,""+src);
-        pq.add(p);
-        while(pq.size()>0){
-
-            pair peek = pq.remove();
-
+   }
+   static void primsAlgo(ArrayList<Edge>[] graph, int src){ 
+        boolean visited[] = new boolean[graph.length];
+        ArrayDeque<pair> queue = new ArrayDeque<>();
+        queue.add(new pair(0, -1, 0));
+        while(queue.size()>0){
+            pair peek = queue.pop();
             if(visited[peek.vertex])
-                continue;   
-            visited[peek.vertex]=true;
-                System.out.println(peek.vertex+" via "+peek.psf+" @ "+peek.wt);
-
+                continue;
+            visited[peek.vertex] = true;
+            if(peek.pv !=-1)
+                System.out.println("["+peek.vertex+"-"+peek.pv+"@"+peek.wt+"]");
             for(Edge e: graph[peek.vertex]){
-                int wt = peek.wt+ e.wt;
-                String psf = peek.psf+e.nbr;
-                pair np = new pair(e.nbr, wt, psf);
-                pq.add(np);
+                if(visited[e.nbr]==false){
+                    queue.add(new pair(e.nbr, peek.vertex, e.wt));
+                }
             }
         }
-       
-        // System.out.println("No such path");
-        
     }
+
+   
+
+
    public static void main(String[] args) throws Exception {
       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -71,9 +69,7 @@ public class dikstras {
          graph[v2].add(new Edge(v2, v1, wt));
       }
 
-      int src = Integer.parseInt(br.readLine());
       // write your code here
-      dikstrasAlgo(graph , vtces,src);
       
    }
 }
