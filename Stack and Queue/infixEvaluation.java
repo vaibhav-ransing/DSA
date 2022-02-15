@@ -1,4 +1,5 @@
 import java.util.Stack;
+import java.util.function.ObjDoubleConsumer;
 
 public class infixEvaluation {
     
@@ -10,32 +11,31 @@ public class infixEvaluation {
             String s = arr[i];
             try {
                 int val = Integer.parseInt(s);
-                System.out.println(val);
+                // System.out.println(val);
                 num.push(val);
 
             } catch (Exception e) {
-                System.out.println(s);
+                // System.out.println(s);
                 if(oper.size()==0){
-                    System.out.println("hello");
                     oper.push(s);
                 }else{
                     String peek = oper.peek();
-                    if(s=="*" || s=="/"){
-                        if(peek=="*" || peek=="/"){
+                    if(s.equals("*") || s.equals("/")){
+                        if(peek.equals("*") || peek.equals("/")){
                             numHelper(num, oper);
                         }
                         oper.push(s);
                     }
-                    else if(s=="("){
+                    else if(s.equals("(")){
                         oper.push(s);
                     }
-                    else if(s=="+" || s=="-"){
-                        if(peek=="*" || peek=="/" || peek=="+" || peek=="-"){
+                    else if(s.equals("+") || s.equals("-")){
+                        if(peek.equals("*") || peek.equals("/") || peek.equals("+") || peek.equals("-")){
                             numHelper(num, oper);
                         }
                         oper.push(s);
                     }
-                    else if(s==")"){
+                    else if(s.equals(")")){
                         numHelper(num, oper);
                         oper.pop();
                     }
@@ -44,35 +44,33 @@ public class infixEvaluation {
             }
         }
         
-        // while(oper.size()>0){
-        //     numHelper(num, oper);
-        // }
-        // System.out.println(num.pop());
+        while(oper.size()>0){
+            numHelper(num, oper);
+        }
+        System.out.println(num.pop());
     }
 
     public static void numHelper( Stack<Integer> num,Stack<String> oper){
             int p1 = num.pop();
             int p2 = num.pop();
             String operation= oper.pop();
-            if(operation=="-"){
+            if(operation.equals("-")){
                 int val = p2-p1;
-                System.out.println(val);
                 num.push(val);
-            }else if(operation=="+"){
+            }else if(operation.equals("+")){
                 int val = p2+p1;
-                System.out.println(val);
                 num.push(val);
-            }else if(operation=="*"){
+            }else if(operation.equals("*")){
                 int val = p2*p1;
-                System.out.println(val);
                 num.push(val);
-            }else if(operation=="/"){
+            }else if(operation.equals("/")){
                 int val = p2/p1;
-                System.out.println(val);
                 num.push(val);
             }
 
     }
+
+
 
     public static void main(String[] args) {
         String s = "2 + 6 * 4 / 8 - 3";
