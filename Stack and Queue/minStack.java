@@ -28,7 +28,7 @@ public class minStack {
     }
 
     int pop() {
-      
+        
         if(allData.size()==0){
             System.out.println("Stack underflow");
             return -1;
