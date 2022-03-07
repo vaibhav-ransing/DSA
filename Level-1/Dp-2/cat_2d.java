@@ -108,6 +108,13 @@ public class cat_2d {
             System.out.println();
         }
     }
+    static void display(double arr[][]){
+        for(int i=0;i<arr.length;i++){
+            for(int j=0;j<arr[0].length;j++)
+                System.out.print(arr[i][j]+" ");
+            System.out.println();
+        }
+    }
 
     static void zeroOneKnap(int cap[], int wt[], int weight){
         int dp[][] = new int[wt.length+1][weight+1];
@@ -124,7 +131,60 @@ public class cat_2d {
                 }
             }
         }
-        displayInt(dp);
+        // displayInt(dp);
+        System.out.println(dp[dp.length-1][dp[0].length-1]);
+    }
+
+    static void fractionalKnapSack(int cap[], int wt[], int weight){
+        double val=0;
+        int index=0;
+        
+        while(weight!=0 && index!=cap.length){
+            int maxIndex = getBestCap(cap, wt);
+            if(weight - wt[maxIndex]>=0){
+                weight -= wt[maxIndex];
+                val+=cap[maxIndex];
+                // System.out.println(wt[maxIndex]+" "+ cap[maxIndex] +" val "+val);
+                cap[maxIndex] = 0;
+            }else{
+                double divisor = wt[maxIndex];
+                double coeff = cap[maxIndex];
+                val+=weight*(coeff/divisor*100)/100 ;
+                weight = 0;
+            }
+            index++;
+        }
+        System.out.println(val);
+        
+    }
+    static int  getBestCap(int cap[], int wt[]){
+        int index=0;
+        double val=0;
+        for(int i=0;i<cap.length;i++){
+            if( cap[i]/wt[i]> val ){
+                val = cap[i]/wt[i];
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    static void unboundedKnap(int cap[], int wt[], int weight){
+
+        int dp[] = new int[weight+1];
+        
+        for(int index= 0; index<wt.length; index++){
+            for(int j=1;j<dp.length;j++){
+                if(j-wt[index]>=0){
+                    int include = dp[j-wt[index]] + cap[index];
+                    dp[j] = Math.max(include, dp[j]); 
+                }
+            }
+        }
+
+        for(int i=0;i<dp.length;i++){
+            System.out.print(dp[i]+" ");
+        }
     }
 
     public static void main(String[] args) {
@@ -134,9 +194,11 @@ public class cat_2d {
         
         // int arr[] = {2,3,5,6};
         // coinChangePermu(arr, 7);
-        int[] cap =  {15 ,14, 10, 45, 30};
+        
+
+        int[] cap =  {15, 14, 10, 45, 30};
         int[] wt = {2, 5, 1, 3, 4};
         int weight = 7;
-        zeroOneKnap(cap, wt, weight);
+        unboundedKnap(cap, wt, weight);
     }
 }
