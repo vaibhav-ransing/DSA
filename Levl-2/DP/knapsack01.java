@@ -79,6 +79,10 @@ public class knapsack01 {
 
         int cap = Integer.parseInt(br.readLine());
 
+        int[] wt = {15,14,10,45,30};
+        int capacity[] = {2,5,1,3,4};
+        int w = 7;
+        
         //write your code here
         soln(values, wts, cap);
         
