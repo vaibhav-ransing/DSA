@@ -1,54 +1,59 @@
-import java.io.*;
-import java.util.*;
+import java.util.Arrays;
 
 public class Main {
+    public int numDecodings_memo(String s, int idx, int[] dp) {
+        if (idx == s.length()) {
+            return dp[idx] = 1;
+        }
 
-    static void graph(boolean arr[][]){
-        boolean visited[] = new boolean[arr.length];
-        int count = -1;
-        for(int i=0;i<arr.length;i++){
-            if(visited[i]==false){
-                helper(arr, visited, i);
-                count++;
+        if (dp[idx] != -1) {
+            return dp[idx];
+        }
+
+        char ch1 = s.charAt(idx);
+        int count = 0;
+        if (ch1 != '0') {
+            count += numDecodings_memo(s, idx + 1, dp);
+
+            if (idx < s.length() - 1) {
+                int num = (ch1 - '0') * 10 + (s.charAt(idx + 1) - '0');
+                if (num <= 26)
+                    count += numDecodings_memo(s, idx + 2, dp);
             }
         }
-        System.out.println(count);
+        return dp[idx] = count;
     }
-    static void helper(boolean arr[][], boolean visited[], int index){
-        if(visited[index])  
-            return;
-        visited[index] = true;
-        System.out.println("visited "+index);
-        for(int i=0;i<arr[0].length;i++){
-            if(arr[index][i]==true && visited[i]==false){
-                helper(arr, visited, i);
+
+    public int numDecodings_tabu(String s, int IDX, int[] dp) {
+        for (int idx = s.length(); idx >= 0; idx--) {
+            if (idx == s.length()) {
+                dp[idx] = 1;
+                continue;
             }
-        }
-    }
-    
-    static void stringReducer(String s){
-        String ans = "";
-        char prev = s.charAt(0);
-        for(int i=1;i<s.length();i++){
-            if(s.charAt(i)!=prev){
-                ans+=prev;
-                prev = s.charAt(i);
+
+            char ch1 = s.charAt(idx);
+            int count = 0;
+            if (ch1 != '0') {
+                count += dp[idx + 1];
+
+                if (idx < s.length() - 1) {
+                    int num = (ch1 - '0') * 10 + (s.charAt(idx + 1) - '0');
+                    if (num <= 26)
+                        count += dp[idx + 2];
+                }
             }
+            dp[idx] = count;
         }
-        if(ans.charAt(ans.length()-1)!=prev)
-            ans+=prev;
-        System.out.println(ans);
+
+        return dp[IDX];
     }
 
-    public static void main(String[] args) throws Exception {
+    public int numDecodings(String s) {
+        int n = s.length();
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp, -1);
 
-        boolean arr[][] = {{false, true, false,false,true},
-                            {true, false,false,false,false},
-                            {false,false,false,true,false},
-                            {false,false,true,false,false},
-                            {true, false,false,false,false}};
-        // graph(arr);
-        stringReducer("ghhrkkb");
-
+        return numDecodings_memo(s, 0, dp);
     }
+
 }
