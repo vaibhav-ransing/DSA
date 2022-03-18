@@ -72,30 +72,83 @@ public class AllPathMinCost {
         printPath(dp);
     }
 
+    static void printAllPathMinJump(int arr[]){
+        int n = arr.length;
+        int dp[] = new int[n+1];
+        for(int i=0;i<dp.length;i++)
+            dp[i] = Integer.MAX_VALUE;
+        dp[n]=0;
+        
+        for(int i=n-1;i>=0;i--){
+            int jumps = arr[i];
+            for(int j=1;j<=jumps;j++){
+                dp[i] = Math.min(dp[i+j], dp[i]);
+            }
+            if(dp[i]!=Integer.MAX_VALUE)
+                dp[i]++;
+
+        }
+        for(int i=0;i<dp.length;i++)
+            System.out.print(dp[i]+" ");
+        System.out.println();
+        printPathMinJump(dp, arr);
+    }
+    static class pair2{
+        int index;
+        String psf;
+        int val;
+        int jumps;
+        pair2(int i, String psf, int val, int jumps){
+            this.index = i;
+            this.psf = psf;
+            this.val = val;
+            this.jumps = jumps;
+        }
+    }
+
+    static void printPathMinJump(int dp[], int arr[]){
+        pair2 p = new pair2(0, "0", dp[0], arr[0]);
+        ArrayDeque<pair2> queue = new ArrayDeque<>();
+        queue.add(p);
+        while(queue.size()>0){
+            pair2 peek = queue.removeFirst();
+            System.out.println(peek.psf);
+            for(int i=peek.index+1; i<=peek.jumps;i++){
+                if(i==dp.length)
+                    break;
+                if(dp[i]==peek.val-1){
+                    pair2 np = new pair2(i, peek.psf+" "+i, dp[i], arr[i]);
+                    queue.add(np);
+                }
+            }
+        }
+    }
 
    public static void main(String[] args) throws Exception {
-      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-      int n = Integer.parseInt(br.readLine());
-      int m = Integer.parseInt(br.readLine());
-      int[][] arr = new int[n][m];
+       int arr[] = {2,3,0,2,1,2,4,2,0,0};
+       printAllPathMinJump(arr);
+    //   BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    //   int n = Integer.parseInt(br.readLine());
+    //   int m = Integer.parseInt(br.readLine());
+    //   int[][] arr = new int[n][m];
 
-      for (int i = 0; i < n; i++) {
-         String str = br.readLine();
-         for (int j = 0; j < m; j++) {
-            arr[i][j] = Integer.parseInt(str.split(" ")[j]);
-         }
-      }
+    //   for (int i = 0; i < n; i++) {
+    //      String str = br.readLine();
+    //      for (int j = 0; j < m; j++) {
+    //         arr[i][j] = Integer.parseInt(str.split(" ")[j]);
+    //      }
+    //   }
 
-      //write your code here
-      printMinCostAndPath(arr);
+    //   //write your code here
+    //   printMinCostAndPath(arr);
 
-      int arr2[][] =  {    { 0 ,1, 4, 2, 8 ,2},
-                            {4, 3 ,6 ,5 ,0,4},
-                            { 1 ,2, 4 ,1, 4 ,6},
-                            {2 ,0 ,7 ,3, 2, 2},
-                            { 3 ,1, 5, 9 ,2, 4},
-                            { 2, 7, 0, 8, 5,1}      };
-                    printMinCostAndPath(arr);
+    //   int arr2[][] =  {    { 0 ,1, 4, 2, 8 ,2},
+    //                         {4, 3 ,6 ,5 ,0,4},
+    //                         { 1 ,2, 4 ,1, 4 ,6},
+    //                         {2 ,0 ,7 ,3, 2, 2},
+    //                         { 3 ,1, 5, 9 ,2, 4},
+    //                         { 2, 7, 0, 8, 5,1}      };
+    //                 printMinCostAndPath(arr);
    }
 
 }

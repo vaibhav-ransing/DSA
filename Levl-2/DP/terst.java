@@ -41,8 +41,9 @@ public class terst{
         }
         int a = dp[0][dp[0].length-1];
         int b = dp[1][dp[0].length-1];
-        // System.out.println(Math.max(a, b));
+        System.out.println(Math.max(a, b));
     }
+    
     static int robberDp(int arr[], int index, boolean prev, int ans, int dp[]){
         if(index==arr.length)
             return ans;
