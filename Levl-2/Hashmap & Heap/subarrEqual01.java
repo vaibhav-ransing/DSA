@@ -56,14 +56,7 @@ public class subarrEqual01{
 
     }
 
-    static class Pair{
-        int a;
-        int b;
-        Pair(int a, int b){
-            this.a = a;
-            this.b = b;
-        }
-    }
+
     static void countSubarrWithEqualZeroAndOneAndTwo(int arr[]){
         HashMap<String, Integer> h = new HashMap<>();
         h.put("0#0",1);

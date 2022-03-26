@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 public class day4 {
     
-    static void anagram(String s1, String s2){
+    static void printAll_anagram(String s1, String s2){
         HashMap<Character, Integer> map = new HashMap<>();
         HashMap<Character, Integer> temp = new HashMap<>();
         for(int i=0;i<s2.length();i++){
@@ -39,99 +39,136 @@ public class day4 {
         for(int val: al)
             System.out.print(val);
     }
-    static void printKanagram(String fst, String sec, int k){
+    
+    static void printKanagram(String s1, String s2, int k){
         HashMap<Character, Integer> map1 = new HashMap<>();
         HashMap<Character, Integer> map2 = new HashMap<>();
         
-        for(int i=0;i<fst.length();i++){
-            char f = fst.charAt(i);
+        for(int i=0;i<s1.length();i++){
+            char f = s1.charAt(i);
             map1.put(f, map1.getOrDefault(f, 0)+1);
 
-            char s = sec.charAt(i);
+            char s = s2.charAt(i);
             map2.put(s, map2.getOrDefault(s, 0)+1);
         }
+
         for(char key: map1.keySet()){
-            Integer fcount = map1.get(key);
-            Integer scount = map2.get(key);
-            if(scount!=null){
-                int min = Math.min(fcount, scount);
-                map1.put(key, fcount-min);
-                map2.put(key, scount-min);
+            int  fc = map1.get(key);
+            int sc = map2.getOrDefault(key, 0);
+            if(sc!=0){
+                int min = Math.min(fc, sc);
+                map1.put(key, fc-min);
+                map2.put(key, sc-min);
             }
-            if(map1.get(key)==0)
-                map1.remove(key);
-            if(map2.get(key)==0)
-                map2.remove(key);
         }
-        System.out.println(map1.size());
+        int count=0;
+        for(char key: map2.keySet()){
+            count+= map2.get(key);
+        }
+        if(count<=k)
+            System.out.println(true);
+        else
+            System.out.println(false);
     }
 
-    static void minWindowSubstring(String s, String t){
-        HashMap<Character, Integer> constantMap = new HashMap<>();
-        HashMap<Character, Integer> map = new HashMap<>();
-        for(int i=0;i<t.length();i++){
-            char key = t.charAt(i);
-            constantMap.put(key, constantMap.getOrDefault(key, 0)+1);
 
-            char key2 = s.charAt(i);
-            map.put(key2, map.getOrDefault(key, 0)+1);
-        }
-        int len = Integer.MAX_VALUE;
-        if(valid(constantMap, map)){
-            System.out.println(t.length());
-            return;
-        }
-        // ABBDCBBA   ABC 
-        int sfci = 0;
-        int i=t.length();
-        for(i=t.length(); i<s.length(); i++){
-            if(valid(constantMap, map)){
-                len = Math.min(len, i-sfci);
-                System.out.println(len+" "+i);
-                char release = s.charAt(sfci);
-                map.put(release, map.get(release)-1);
-                if(map.get(release)==0)
-                    map.remove(release);
-                sfci++;
-                i--;
+    static void anagramMapping(String s, String p){
+        HashMap<Character, ArrayList<Integer>> map = new HashMap<>();
+        int arr[] = new int[s.length()];
+        for(int i=0;i<p.length();i++){
+            char ch = p.charAt(i);
+            if(map.containsKey(ch)){
+                ArrayList<Integer> al = map.get(ch);
+                al.add(i);
+                map.put(ch, al);
             }else{
-
-                char ch = s.charAt(i);
-                System.out.println(ch);
-                map.put(ch, map.getOrDefault(ch, 0)+1);
+                ArrayList<Integer> al = new ArrayList<>();
+                al.add(i);
+                map.put(ch, al);
             }
         }
-        // System.out.println(valid(constantMap, map));
-        for(char key: map.keySet()){
-            System.out.println(key+" "+map.get(key));
+        for(int i=0;i<s.length();i++){
+            char ch = s.charAt(i);
+            ArrayList<Integer> al = map.get(ch);
+            arr[i] = al.get(0);
+            al.remove(0);
+            map.put(ch, al);
         }
-        // while(valid(constantMap, map)){
-        //     len = Math.min(len, i-sfci);
-        //     System.out.println(len+" "+i);
-        //     char release = s.charAt(sfci);
-        //     map.put(release, map.get(release)-1);
-        //     if(map.get(release)==0)
-        //         map.remove(release);
-        //     sfci++;
-        // }
-
-    }
-    static boolean valid(HashMap<Character, Integer> constantMap,HashMap<Character, Integer> map ){
-        
-        for(char key: constantMap.keySet()){
-            if(map.get(key)!=constantMap.get(key))
-                return false;
+        for(int val: arr){
+            System.out.print(val+" ");
         }
-        return true;
     }
+    static void anagramMapping2(int arr1[], int arr2[]){
+        HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+        int arr[] = new int[arr1.length];
+        for(int i=0;i<arr2.length;i++){
+            int key = arr2[i];
+            if(map.containsKey(key)){
+                ArrayList<Integer> al = map.get(key);
+                al.add(i);
+                map.put(key, al);
+            }else{
+                ArrayList<Integer> al = new ArrayList<>();
+                al.add(i);
+                map.put(key, al);
+            }
+        }
+        for(int i=0;i<arr1.length;i++){
+            int key = arr1[i];
+            ArrayList<Integer> al = map.get(key);
+            arr[i] = al.get(0);
+            al.remove(0);
+            map.put(key, al);
 
+        }
+    }
+   
+    static void minWindowSubstring2(String s1, String s2){
+        HashMap<Character, Integer> fixedMap = new HashMap<>();
+        for(int i=0;i<s2.length();i++){
+            char ch = s2.charAt(i);
+            fixedMap.put(ch, fixedMap.getOrDefault(ch, 0)+1);
+        }
+        String ans = "";
+        int currCount=0;
+        int reqCount = s2.length();
+        int i=0, j=0;
+        HashMap<Character, Integer> map = new HashMap<>();
+        while(true){
+            boolean f1=false, f2=false;
+
+            while(currCount<reqCount && i<s1.length()){
+                char ch = s1.charAt(i);
+                map.put(ch, map.getOrDefault(ch, 0)+1);
+                if(map.get(ch) <= fixedMap.getOrDefault(ch, 0))
+                    currCount++;
+                i++;
+                f1 = true;
+            }
+            while(reqCount<=currCount){
+                String temp = s1.substring(j, i);
+                if(ans.length()==0 || temp.length()<ans.length()){
+                    ans = temp;
+                }
+                char ch = s1.charAt(j);
+                if(map.get(ch)==1)
+                    map.remove(ch);
+                else
+                    map.put(ch, map.get(ch)-1);
+                if(map.getOrDefault(ch, 0) < fixedMap.getOrDefault(ch, 0)){
+                    currCount--;
+                }
+                j++;
+                f2 = true;
+            }
+            if(f1==false && f2==false)
+                break;
+
+        }
+        System.out.println(ans);
+    }
+   
     public static void main(String[] args) {
-        // String s1 = "cbaebabacd";
-        // String s2 = "abc";
-        // anagram(s1, s2);
-        // printKanagram("fodr", "gork", 2);
-
-        minWindowSubstring("ABBDCBBA", "ABC");         
-
+        minWindowSubstring2("aabdcab", "abc");
     }
 }

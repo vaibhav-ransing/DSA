@@ -88,9 +88,9 @@ public class AllPathMinCost {
                 dp[i]++;
 
         }
-        for(int i=0;i<dp.length;i++)
-            System.out.print(dp[i]+" ");
-        System.out.println();
+        // for(int i=0;i<dp.length;i++)
+        //     System.out.print(dp[i]+" ");
+        System.out.println(dp[0]);
         printPathMinJump(dp, arr);
     }
     static class pair2{
@@ -112,7 +112,8 @@ public class AllPathMinCost {
         queue.add(p);
         while(queue.size()>0){
             pair2 peek = queue.removeFirst();
-            System.out.println(peek.psf);
+            if(peek.index==dp.length-1)
+                System.out.println(peek.psf);
             for(int i=peek.index+1; i<=peek.jumps;i++){
                 if(i==dp.length)
                     break;
