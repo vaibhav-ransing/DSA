@@ -1,3 +1,4 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -329,7 +330,7 @@ public class day8 {
         System.out.println(len);
     }
 
-    public static void countOf_SubstringWithAtMostKUniqueCharacter(String s, int k){
+    public static int countOf_SubstringWithAtMostKUniqueCharacter(String s, int k){
         //  aabc    bcdbca  2  
         HashMap<Character, Integer> map = new HashMap<>();
         int i=0, j=0, maxLen=0, count=0;
@@ -345,7 +346,6 @@ public class day8 {
                     j++;
                     count+=j-i;
                 }
-
             }
             while(i<s.length() && release){
                 char ch = s.charAt(i++);
@@ -354,20 +354,51 @@ public class day8 {
                     release= false;
                 }else
                     map.put(ch, map.get(ch)-1);
-                // System.out.println("releas "+ i+" "+j+" "+count);
             }
             if(j==s.length())
                 break;
         }
-        System.out.println(count);
-
+        return count;
     }
 
+    public static int countOf_SubstringWithExactKUniqueCharacter(String s, int k){
+        if(k==1)
+            return countOf_SubstringWithAtMostKUniqueCharacter(s, k);
+        else{
+            int atMostK = countOf_SubstringWithAtMostKUniqueCharacter(s,k);
+            int atMostKminusOne = countOf_SubstringWithAtMostKUniqueCharacter(s,k);
+            return atMostK - atMostKminusOne;
+        }
+    }
+    
+    public static void LargestSubarrayWithContiguousElements(int arr[]){
+        HashSet<Integer> set;
+        int len = 0;
+        // 10 12 11 10
+        for(int i=0;i<arr.length;i++){
+            int min=arr[i], max=arr[i];
+            set = new HashSet<>();
+            for(int j=i;j<arr.length;j++){
+                min = Math.min(min, arr[j]);
+                max = Math.max(max, arr[j]);
+                boolean cond = (max-min)==j-i;
+                if(set.contains(arr[j])==false && cond){
+                    len = Math.max(len, j-i);
+                }
+                if(set.contains(arr[j]))
+                    break;
+                set.add(arr[j]);
+            }
+        }
+        System.out.println("ans "+len);
+    }
+    
+    
+    
     public static void main(String[] args) {
         // int arr[] = {1,1,0,0,1,1,1};
-        // maxConsecutiveOne(arr, 1);
-        // longestSubstringWithAtMostKUniqueCharacter("aabcbcdbca", 2);
-        countOf_SubstringWithAtMostKUniqueCharacter("aabcbcdbca",2);
+        int arr[]  = {10,12,11,10};
+        LargestSubarrayWithContiguousElements(arr);
 
 
     }
