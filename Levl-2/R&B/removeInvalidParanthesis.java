@@ -1,12 +1,15 @@
-import java.io.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Stack;
 
-public class Main {
-
-	    static void solution(String s,int index,String ans, int minRemoval, HashSet<String> set){
+public class removeInvalidParanthesis {
+    
+    static void solution(String s,int index,String ans, int minRemoval, HashSet<String> set){
 
         if(index==s.length()){
             if(minRemoval==0 && isValid(ans)){
+                if(set.contains(ans)==false){
+                    System.out.println(ans);
+                }
                 set.add(ans);
             }
             return;
@@ -55,14 +58,10 @@ public class Main {
         return count;
     }
 
-	public static void main(String[] args) {
-		Scanner scn = new Scanner(System.in);
-		String str = scn.next();
-        
-		solution(str,0, "", getMin(str),new HashSet<>());
-		for(String val: set){
-            System.out.println(val);
-        }
-	}
-		
+
+    public static void main(String[] args) {
+        int minRemoval = getMin("()())()");
+        HashSet<String> set = new HashSet<>();
+        solution("()())()", 0, "", minRemoval, set);
+    }
 }
