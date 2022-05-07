@@ -22,7 +22,6 @@ public class maxNumafterKswap {
         ch[i] = ch[j];
         ch[j] = ci;
         return String.valueOf(ch);
-
     }
 
 
