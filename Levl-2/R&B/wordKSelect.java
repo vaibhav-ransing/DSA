@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class wordKSelect {
 
+    // combination
 
     static void pickKunique(String str, int count,int index, HashSet<Character> set, String asf, HashSet<String> uniquePrint){
         if(index==str.length()){
@@ -87,14 +88,24 @@ public class wordKSelect {
     }
 //  ----------------------------------------------------------------------------------------------
 
-
+    static void w2(String unique, int ssf, int preIndex, String asf,  int k){
+        if(ssf> k){
+            System.out.println(asf);
+            return;
+        }
+        for(int i=preIndex; i<unique.length(); i++){
+            char ch = unique.charAt(i);
+            w2(unique, ssf+1, i+1, asf+ch, k);
+        }
+    }
 
     public static void main(String[] args) {
         HashSet<Character> set = new HashSet<>();
         // pickKunique("aabbbccdde", 3, 0, set, "", new HashSet<>());
         // solution1("abcde", 0, new Character[3], 3);
         // w1("abcde", 0, 0, new Character[3], 3);
-        word1(0, "abcde", 0, 3, "");
+        // word1(0, "abcde", 0, 3, "");
+        w2("abcde", 1, 0, "", 3);
 
         
     }

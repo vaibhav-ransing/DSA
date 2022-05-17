@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.*;
  
 public class practice {
@@ -53,9 +54,7 @@ public class practice {
             System.out.print(val);
     }
 
-  
- 
-     public static ArrayList<String> grayCode(int n) {
+    public static ArrayList<String> grayCode(int n) {
  	 //Write your code here
         if(n==1){
             ArrayList<String> bres = new ArrayList<>();
@@ -77,6 +76,48 @@ public class practice {
       
      }
  
+     public static ArrayList<Integer> findNumOfValidWords(String[] words, String[] puzzles) {
+		//write your code here
+        HashMap<Character, ArrayList<Integer> > map = new HashMap<>();
+        for(int i=0;i<26;i++){
+            map.put((char)('a'+i), new ArrayList<>());
+        }    
+        
+        for(String word: words){
+            int mask = 0;
+            for(char ch: word.toCharArray()){
+                int bit = ch - 'a';
+                mask = mask | (1<<bit);
+            }
+            HashSet<Character> set = new HashSet<>();
+
+            for(char ch: word.toCharArray()){
+                if(set.contains(ch)==false){
+                    map.get(ch).add(mask);
+                    set.add(ch);
+                }
+            }
+        }
+        ArrayList<Integer> res = new ArrayList<>();
+
+        for(String puzzle: puzzles){
+            int mask = 0;
+            for(char ch: puzzle.toCharArray()){
+                int bit = ch-'a';
+                mask= mask | (1<<bit); 
+            }
+            char fc = puzzle.charAt(0);
+            ArrayList<Integer> al = map.get(fc);
+            int count=  0;
+            for(int wmask:al){
+                if((wmask & mask)==wmask){
+                    count++;
+                }
+            }
+            System.out.println(puzzle +" -> "+ count);
+        } 
+		return null;
+	 }
 
     public static void main(String[] args) {
         // int n=10;
