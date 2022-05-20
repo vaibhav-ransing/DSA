@@ -1,8 +1,5 @@
-import java.io.*;
-import java.util.*;
-
-public class Main {
-
+public class burstBaloon {
+    
     static void solution(int arr[]){
         // 2 3 7 5
         boolean[] visited = new boolean[arr.length];
@@ -42,35 +39,35 @@ public class Main {
         }
     }
 
+
     static void dpSolution(int arr[]){
         int dp[][] = new int[arr.length][arr.length];
-        // 2 3 1 5 6 4
         for(int gap=0; gap<dp.length; gap++){
             for(int i=0, j=gap; j<dp.length; j++, i++){
-                if(gap==0){
-                    if(j==0){
-                        dp[i][j] = arr[j]*arr[j+1];
-                    }else if(j==arr.length-1){
-                        dp[i][j] = arr[j]*arr[j-1];
-                    }else{
-                        dp[i][j] = arr[j]*arr[j-1]*arr[j+1];
-                    }
-                }else{
-                    
+                for(int k=i; k<=j; k++){
+                    int left = k==i? 0: dp[i][k-1];
+                    int right = k==j? 0: dp[k+1][j];
+                    int val = arr[k];
+                    if(i>0) val*=arr[i-1];
+                    if(j<arr.length-1) val*=arr[j+1];
+                    int tv = left+right+val;
+                    dp[i][j] = Math.max(dp[i][j], tv);
                 }
             }
         }
+
+        // for(int d[]: dp){
+        //     for(int val: d){
+        //         System.out.print(val+" ");
+        //     }
+        //     System.out.println();
+        // }
+        System.out.println(dp[0][dp.length-1]);
     }
 
-
-  public static void main(String[] args) {
-    Scanner scn = new Scanner(System.in);
-    int n = scn.nextInt();
-    int[] arr = new int[n];
-    for (int i = 0; i < arr.length; i++) {
-      arr[i] = scn.nextInt();
+    public static void main(String[] args) {
+        int arr[] = {2,3,1,5,6,4};
+        // solution(arr);
+        dpSolution(arr);
     }
-    solution(arr);
-  }
-
 }
