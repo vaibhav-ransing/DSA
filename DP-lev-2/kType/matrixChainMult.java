@@ -1,3 +1,4 @@
+package kType;
 public class matrixChainMult {
     
     

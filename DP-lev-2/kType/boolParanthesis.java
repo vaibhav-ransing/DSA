@@ -1,3 +1,4 @@
+package kType;
 public class boolParanthesis {
     
     static void solution(boolean arr[], Character operator[]){

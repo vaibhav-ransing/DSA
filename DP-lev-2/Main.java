@@ -1,76 +1,33 @@
-import java.io.*;
-import java.util.*;
+public class Main{
 
-public class Main {
-
-    static void solution(int arr[]){
-        // 2 3 7 5
-        boolean[] visited = new boolean[arr.length];
-        recursive(arr, visited, 0, 0);
-        System.out.println(sum);
+    static int ans = 0;
+    public static int tallestBillboard(int[] rods) {
+        int sum = 0;
+        ans = 0;
+        for(int val: rods) sum+=val;
+        boolean dp[][] = new boolean[sum+1][sum+1];
+        helper(rods, 0, 0, 0 , dp);
+        System.out.println("ans "+ans);
+        return ans;
     }
-    static int sum=0;
-    static void recursive(int arr[], boolean visited[], int ans, int used){
-        if(used==arr.length){
-            sum = Math.max(sum, ans);
+    static void helper(int[] rods, int i, int sum1, int sum2, boolean dp[][]){
+        
+        if(sum1==sum2){
+            System.out.println(sum1);
+            ans = Math.max(ans, sum1);
+        }
+        if(i==rods.length || dp[sum1][sum2]){
+            dp[sum1][sum2] = true;
             return;
         }
-
-        for(int i=0; i<arr.length; i++){
-            if(visited[i]==false){
-                visited[i] =true;
-                int temp = arr[i];
-                int l=i-1;
-                int r = i+1;
-
-                while(l>=0 && visited[l]!=false ){
-                    l--;
-                }
-                if(l>=0)
-                    temp*=arr[l];
-                
-                while(r<arr.length && visited[r]!=false){
-                    r++;
-                }
-                if(r<arr.length)
-                    temp*=arr[r];
-                
-                recursive(arr, visited, ans+temp, used+1);
-                visited[i]=false;
-            }
-            
-        }
+        int val = rods[i];
+        helper(rods, i+1, sum1, sum2, dp);
+        helper(rods, i+1, sum1+val, sum2, dp);
+        helper(rods, i+1, sum1, sum2+val, dp);
     }
 
-    static void dpSolution(int arr[]){
-        int dp[][] = new int[arr.length][arr.length];
-        // 2 3 1 5 6 4
-        for(int gap=0; gap<dp.length; gap++){
-            for(int i=0, j=gap; j<dp.length; j++, i++){
-                if(gap==0){
-                    if(j==0){
-                        dp[i][j] = arr[j]*arr[j+1];
-                    }else if(j==arr.length-1){
-                        dp[i][j] = arr[j]*arr[j-1];
-                    }else{
-                        dp[i][j] = arr[j]*arr[j-1]*arr[j+1];
-                    }
-                }else{
-                    
-                }
-            }
-        }
+    public static void main(String[] args) {
+        int arr[] = {1,2,3,4,5,6};
+        tallestBillboard(arr);
     }
-
-
-  public static void main(String[] args) {
-    Scanner scn = new Scanner(System.in);
-    int n = scn.nextInt();
-    int[] arr = new int[n];
-    for (int i = 0; i < arr.length; i++) {
-      arr[i] = scn.nextInt();
-    }
-    solution(arr);
-  }
-
 }
