@@ -30,6 +30,7 @@ public class swimInRisingWater {
             pair peek = pq.remove();
             if(peek.i==grid.length-1 && peek.j==grid[0].length-1){
                 ans = Math.min(ans, peek.wsf);
+                break;
             }
             visited[peek.i][peek.j] = true;
             for(int d=0; d<dir.length; d++){

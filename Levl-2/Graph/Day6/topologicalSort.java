@@ -30,7 +30,7 @@ public class topologicalSort {
                 DFS(graph, visited, nbr, stack);
             }
         }
-        stack.add(v);
+        stack.add(v);   
     }
 
     public static void main(String[] args) {
