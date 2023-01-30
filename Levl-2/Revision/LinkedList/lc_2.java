@@ -1,4 +1,7 @@
 package LinkedList;
+
+import LinkedList.subtractLinkedList.Node;
+
 public class lc_2{
 
      public class ListNode {
@@ -27,6 +30,40 @@ public class lc_2{
             num = num%10;
             temp.next = new ListNode(num);
             temp = temp.next;
+        }
+        return ans;
+    }
+
+    int getSize(ListNode node) {
+        int s = 0;
+        while(node != null) {
+            s++; node = node.next;
+        }
+        return s;
+    }
+
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        int sizeA = getSize(headA);
+        int sizeB = getSize(headB);
+        if(sizeA>sizeB){
+            while(sizeA!=sizeB){
+                headA = headA.next;
+                sizeA--;
+            }
+        }else if(sizeA<sizeB){
+            while(sizeB!=sizeA){
+                headB = headB.next;
+                sizeB--;
+            }
+        }
+        ListNode ans = null;
+        while(headA!=null && headB!=null){
+            if(headA==headB){
+                ans = headA;
+                break;
+            }
+            headA = headA.next;
+            headB = headB.next;
         }
         return ans;
     }
