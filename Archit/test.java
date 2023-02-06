@@ -1,19 +1,38 @@
+import java.util.Stack;
+
 public class test {
 
-    public static void main(String[] args) {
-        String s = "vaibhav \n is \n vaibhav";
-        String temp = s;
-        
-        if(temp.contains("hello")){
-            temp = temp.replaceAll("test", "may");
-            System.out.println("HELLO HAI ISME");
-        }
-            
-        if(temp.contains("vaibhav")){
-            temp = temp.replaceAll("vaibhav", "asdfasd");
-            System.out.println("Vaibhav HAI ISME");
-        }
+    public boolean isValid(String s) {
+        // { [ (
 
-        System.out.println(temp);
+        Stack<Character> stack = new Stack<>();
+        for(char ch: s.toCharArray()){
+            if(ch==')'){
+                if(stack.size()==0 || stack.peek()!='('){
+                    return false;
+                }else{
+                    stack.pop();
+                }
+            }else if(ch=='}'){
+                if(stack.size()==0 || stack.peek()!='{'){
+                    return false;
+                }else{
+                    stack.pop();
+                }
+            }else if(ch==']'){
+                if(stack.size()==0 || stack.peek()!='['){
+                    return false;
+                }else{
+                    stack.pop();
+                }
+            }else{
+                stack.push(ch);
+            }
+        }
+        return stack.size()==0;
+    }
+
+
+    public static void main(String[] args) {
     }
 }
