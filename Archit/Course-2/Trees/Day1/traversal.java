@@ -23,8 +23,9 @@ public class traversal {
     }
     public void helper(TreeNode node, List<Integer> list){
         if(node == null) return;
-        list.add(node.val);
+        
         helper(node.left, list);
+        list.add(node.val);
         helper(node.right, list);
     }
 
