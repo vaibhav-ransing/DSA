@@ -8,3 +8,14 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 }
+
+
+
+@GetMapping("/users/{id}")
+public User getUserById(@PathVariable Long id) {
+    User user = userService.findUserById(id);
+    if (user == null) {
+        throw new ResourceNotFoundException("User not found with ID: " + id);
+    }
+    return user;
+}
