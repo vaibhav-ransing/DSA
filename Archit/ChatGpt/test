@@ -1,21 +1,49 @@
-@ControllerAdvice
-public class RestExceptionHandler {
+public class CustomException extends RuntimeException {
+    private String errorMessage;
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<Object> handleResourceNotFoundException(ResourceNotFoundException ex) {
-        // create a custom error response
-        ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    public CustomException(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+}
+-------------------------------------
+
+@RestController
+public class MyController {
+
+    @GetMapping("/resource")
+    public Resource getResource() {
+        if (errorCondition) {
+            throw new CustomException("Error message here");
+        }
+        return new Resource();
+    }
+
+    @ExceptionHandler(CustomException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleCustomException(CustomException ex) {
+        return new ErrorResponse(ex.getErrorMessage());
+    }
+}
+-----------------------------------
+
+public class ErrorResponse {
+    private String errorMessage;
+
+    public ErrorResponse(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }
 
 
-
-@GetMapping("/users/{id}")
-public User getUserById(@PathVariable Long id) {
-    User user = userService.findUserById(id);
-    if (user == null) {
-        throw new ResourceNotFoundException("User not found with ID: " + id);
-    }
-    return user;
-}
