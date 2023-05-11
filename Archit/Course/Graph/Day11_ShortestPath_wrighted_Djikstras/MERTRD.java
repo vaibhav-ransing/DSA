@@ -1,7 +1,5 @@
-package Course.Graph.Day11_ShortestPath_wrighted;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.PriorityQueue;
 
 // https://www.codingninjas.com/codestudio/problems/reverse-edges_1200162?leftPanelTab=0
@@ -38,16 +36,12 @@ public class MERTRD {
     public static int reverseEdges(int n, int start, int end, ArrayList<ArrayList<Integer>> edgeList) {
 
         Graph graph = new Graph(n);
-        // for(int src=0; src<edgeList.size(); src++){
-        //     for(int nbr : edgeList.get(src)){
-        //         graph.adj[src].add(new Pair(nbr, 0));
-        //         graph.adj[nbr].add(new Pair(src, 1));
-        //     }
-        // }
+
         for(ArrayList<Integer> edge : edgeList){
             graph.adj[edge.get(0)].add(new Pair(edge.get(1), 0));
             graph.adj[edge.get(1)].add(new Pair(edge.get(0), 1));
         }
+
         boolean[] visited = new boolean[n];
         PriorityQueue<Pair> queue = new PriorityQueue<>();
         queue.add(new Pair(start, 0));

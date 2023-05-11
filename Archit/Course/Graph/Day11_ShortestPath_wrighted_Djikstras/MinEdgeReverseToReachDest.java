@@ -1,4 +1,3 @@
-package Course.Graph.Day11_ShortestPath_wrighted;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
