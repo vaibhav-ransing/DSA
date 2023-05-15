@@ -59,3 +59,6 @@ public class Main {
         teacher.generateRandomNumber();
     }
 }
+
+
+squid:S00112
