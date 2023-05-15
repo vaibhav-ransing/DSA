@@ -2,7 +2,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-public class UniqueRandomNumberGenerator {
+class UniqueRandomNumberGenerator {
     private Set<Integer> numbersSeen;
     private Random random;
 
@@ -20,14 +20,42 @@ public class UniqueRandomNumberGenerator {
         numbersSeen.add(randomNumber);
         return randomNumber;
     }
+}
 
+class RandomStudent {
+    private UniqueRandomNumberGenerator numberGenerator;
+
+    public RandomStudent() {
+        numberGenerator = new UniqueRandomNumberGenerator();
+    }
+
+    public void generateRandomNumber() {
+        int randomNumber = numberGenerator.generateUniqueRandomNumber();
+        System.out.println("Random student number: " + randomNumber);
+        // Do something with the random number for students
+    }
+}
+
+class RandomTeacher {
+    private UniqueRandomNumberGenerator numberGenerator;
+
+    public RandomTeacher() {
+        numberGenerator = new UniqueRandomNumberGenerator();
+    }
+
+    public void generateRandomNumber() {
+        int randomNumber = numberGenerator.generateUniqueRandomNumber();
+        System.out.println("Random teacher number: " + randomNumber);
+        // Do something with the random number for teachers
+    }
+}
+
+public class Main {
     public static void main(String[] args) {
-        UniqueRandomNumberGenerator generator = new UniqueRandomNumberGenerator();
+        RandomStudent student = new RandomStudent();
+        student.generateRandomNumber();
 
-        // Generate 10 unique random numbers
-        for (int i = 0; i < 10; i++) {
-            int uniqueRandomNumber = generator.generateUniqueRandomNumber();
-            System.out.println(uniqueRandomNumber);
-        }
+        RandomTeacher teacher = new RandomTeacher();
+        teacher.generateRandomNumber();
     }
 }
