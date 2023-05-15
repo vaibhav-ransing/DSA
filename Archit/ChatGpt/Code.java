@@ -1,9 +1,33 @@
-import random
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
-def generate_unique_random_number():
-    numbers_seen = set()
-    while True:
-        random_number = random.randint(1, 9999)
-        if random_number not in numbers_seen:
-            numbers_seen.add(random_number)
-            return random_number
+public class UniqueRandomNumberGenerator {
+    private Set<Integer> numbersSeen;
+    private Random random;
+
+    public UniqueRandomNumberGenerator() {
+        numbersSeen = new HashSet<>();
+        random = new Random();
+    }
+
+    public int generateUniqueRandomNumber() {
+        int randomNumber;
+        do {
+            randomNumber = random.nextInt(9999) + 1;
+        } while (numbersSeen.contains(randomNumber));
+
+        numbersSeen.add(randomNumber);
+        return randomNumber;
+    }
+
+    public static void main(String[] args) {
+        UniqueRandomNumberGenerator generator = new UniqueRandomNumberGenerator();
+
+        // Generate 10 unique random numbers
+        for (int i = 0; i < 10; i++) {
+            int uniqueRandomNumber = generator.generateUniqueRandomNumber();
+            System.out.println(uniqueRandomNumber);
+        }
+    }
+}
