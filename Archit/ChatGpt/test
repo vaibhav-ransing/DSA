@@ -1,4 +1,0 @@
-Object obj = new Integer(10);
-String className = "java.lang.String";
-Class<?> targetClass = Class.forName(className);
-String str = targetClass.cast(obj);

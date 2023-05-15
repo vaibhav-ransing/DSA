@@ -1,5 +1,9 @@
-dir /s /b /a-d "%ProgramFiles%\*nexusiq*.bat" | findstr /i /c:"NexusIQ.bat"
+import random
 
-dir /s /b /a-d "%ProgramFiles%\*NexusIQ*.bat"
-
-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
+def generate_unique_random_number():
+    numbers_seen = set()
+    while True:
+        random_number = random.randint(1, 9999)
+        if random_number not in numbers_seen:
+            numbers_seen.add(random_number)
+            return random_number
