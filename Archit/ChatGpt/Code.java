@@ -1,64 +1,56 @@
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import javax.persistence.*;
 
-class UniqueRandomNumberGenerator {
-    private Set<Integer> numbersSeen;
-    private Random random;
+@Entity
+@Table(name = "data_api")
+public class DataApi {
 
-    public UniqueRandomNumberGenerator() {
-        numbersSeen = new HashSet<>();
-        random = new Random();
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "sr_no")
+    private Long srNo;
 
-    public int generateUniqueRandomNumber() {
-        int randomNumber;
-        do {
-            randomNumber = random.nextInt(9999) + 1;
-        } while (numbersSeen.contains(randomNumber));
+    @Column(name = "icto", nullable = false)
+    private String icto;
 
-        numbersSeen.add(randomNumber);
-        return randomNumber;
-    }
+    @Column(name = "api_type", nullable = false)
+    private String apiType;
+
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
+    // Constructors, getters, and setters
 }
 
-class RandomStudent {
-    private UniqueRandomNumberGenerator numberGenerator;
+// -------------------------------
+import org.springframework.data.jpa.repository.JpaRepository;
 
-    public RandomStudent() {
-        numberGenerator = new UniqueRandomNumberGenerator();
-    }
-
-    public void generateRandomNumber() {
-        int randomNumber = numberGenerator.generateUniqueRandomNumber();
-        System.out.println("Random student number: " + randomNumber);
-        // Do something with the random number for students
-    }
+public interface DataApiRepository extends JpaRepository<DataApi, Long> {
 }
 
-class RandomTeacher {
-    private UniqueRandomNumberGenerator numberGenerator;
+// ------------------------------
 
-    public RandomTeacher() {
-        numberGenerator = new UniqueRandomNumberGenerator();
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class YourService {
+
+    private final DataApiRepository dataApiRepository;
+
+    @Autowired
+    public YourService(DataApiRepository dataApiRepository) {
+        this.dataApiRepository = dataApiRepository;
     }
 
-    public void generateRandomNumber() {
-        int randomNumber = numberGenerator.generateUniqueRandomNumber();
-        System.out.println("Random teacher number: " + randomNumber);
-        // Do something with the random number for teachers
-    }
-}
+    public void saveDataToTable(String icto, String apiType) {
+        DataApi dataApi = new DataApi();
+        dataApi.setIcto(icto);
+        dataApi.setApiType(apiType);
+        dataApi.setCreatedAt(LocalDateTime.now());
 
-public class Main {
-    public static void main(String[] args) {
-        RandomStudent student = new RandomStudent();
-        student.generateRandomNumber();
-
-        RandomTeacher teacher = new RandomTeacher();
-        teacher.generateRandomNumber();
+        dataApiRepository.save(dataApi);
     }
 }
 
 
-squid:S00112
+

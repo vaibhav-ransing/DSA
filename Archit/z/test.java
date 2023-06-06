@@ -12,5 +12,4 @@ public class test {
         myThread.start();
         myThread2.start();
     }
-    
 }
