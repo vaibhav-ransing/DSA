@@ -1,28 +1,21 @@
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+CREATE TABLE data_api_summary (
+    sr_no INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    icto VARCHAR(100) NOT NULL,
+    api_type VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    count INT UNSIGNED NOT NULL DEFAULT 1,
+    PRIMARY KEY (sr_no),
+    UNIQUE KEY (api_type)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-@RestController
-public class JenkinsApiController {
 
-    private final DataApiRepository dataApiRepository;
 
-    @Autowired
-    public JenkinsApiController(DataApiRepository dataApiRepository) {
-        this.dataApiRepository = dataApiRepository;
-    }
+CREATE TRIGGER trg_data_api_insert
+AFTER INSERT ON data_api
+FOR EACH ROW
+BEGIN
+    INSERT INTO api_table_summary (api_type, total_count)
+    VALUES (NEW.api_type, 1)
+    ON DUPLICATE KEY UPDATE total_count = total_count + 1;
+END;
 
-    @PostMapping("/jenkinsApi")
-    public ResponseEntity<String> processJenkinsData(@RequestBody JenkinsModel jenkinsModel) {
-        DataApi dataApi = new DataApi();
-        dataApi.setIcto(jenkinsModel.getIcto());
-        dataApi.setApiType(jenkinsModel.getName());
-        dataApi.setCreatedAt(LocalDateTime.now());
-
-        dataApiRepository.save(dataApi);
-
-        return ResponseEntity.ok("Data saved successfully");
-    }
-}
