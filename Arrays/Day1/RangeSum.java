@@ -1,4 +1,4 @@
-package Arrays.First10;
+package Arrays.Day1;
 
 public class RangeSum {
     // https://www.pepcoding.com/resources/data-structures-and-algorithms-in-java-levelup/arrays-and-strings/range_addition/ojquestion

@@ -1,4 +1,4 @@
-package Arrays.First10;
+package Arrays.Day1;
 
 public class LongPressed_LC925 {
     

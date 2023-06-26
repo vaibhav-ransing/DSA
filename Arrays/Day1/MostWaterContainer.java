@@ -1,4 +1,4 @@
-package Arrays.First10;
+package Arrays.Day1;
 
 import java.util.Arrays;
 import java.util.Stack;
@@ -42,6 +42,6 @@ public class MostWaterContainer {
     }
 
     public static void main(String[] args) {
-        int arr[] = {1,8,6,2,5,4,8,3,7};
+        // int arr[] = {1,8,6,2,5,4,8,3,7};
     }
 }
