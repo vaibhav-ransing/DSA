@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Folder Browser</title>
+</head>
+<body>
+    <h1>Folder Browser</h1>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+    <form action="/submit" method="POST">
+        <label for="user_id">User ID:</label>
+        <input type="text" name="user_id" id="user_id" required><br><br>
+        <label for="user_pass">User Password:</label>
+        <input type="password" name="user_pass" id="user_pass" required><br><br>
+        <label for="component_name">Component Name:</label>
+        <input type="text" name="component_name" id="component_name" required><br><br>
+        <label for="folder_path">Folder Path:</label>
+        <input type="text" name="folder_path" id="folder_path" required readonly>
+        <button type="button" onclick="browseFolder()">Browse</button><br><br>
+        <input type="submit" value="Submit">
+    </form>
+    
+    <script>
+        function browseFolder() {
+            window.location.href = "/browse";
+        }
+    </script>
+</body>
+</html>

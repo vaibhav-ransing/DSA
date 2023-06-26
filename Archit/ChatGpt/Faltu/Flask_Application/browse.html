@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Folder Browser</title>
+    <script>
+        function setFolderPath(path) {
+            document.getElementById('folder_path').value = path;
+        }
+    </script>
+</head>
+<body>
+    <h1>Folder Browser</h1>
+    <button onclick="window.history.back()">Go Back</button><br><br>
+    <h3>Select a folder:</h3>
+    <input type="file" id="folder_input" webkitdirectory onchange="setFolderPath(this.files[0].path)" style
