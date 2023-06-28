@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 import requests
+from sonarScript import sonar_script
 
 # Dark mode theme colors
 BG_COLOR = "#2E3440"  # Background color
@@ -20,24 +21,9 @@ def submit_form():
     user_password = entry_user_password.get()
     component_name = entry_component_name.get()
     folder_location = entry_folder_location.get()
-    
-    # Prepare the payload
-    payload = {
-        "user_id": user_id,
-        "user_password": user_password,
-        "component_name": component_name,
-        "folder_location": folder_location
-    }
-    
-    # Send the payload to the Flask API endpoint
-    api_url = "http://localhost:5000/fix_sonar"  # Replace with your Flask API endpoint URL
-    response = requests.post(api_url, json=payload)
-    
-    if response.status_code == 200:
-        print("Data submitted successfully")
-    else:
-        print("Failed to submit data")
-    
+
+    sonar_script(user_id, user_password, component_name, folder_location)
+
     window.destroy()  # Close the window
 
 # Create the main window

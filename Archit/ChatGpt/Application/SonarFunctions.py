@@ -1,4 +1,4 @@
-def fix_variable_declaration(file_location, line_number):
+def replace_local_variable_java(file_location, line_number):
     # Open the file in read mode
     with open(file_location, 'r') as file:
         lines = file.readlines()
@@ -20,3 +20,30 @@ def fix_variable_declaration(file_location, line_number):
     # Write the updated contents back to the file
     with open(file_location, 'w') as file:
         file.writelines(lines)
+
+def remove_commented_code_java(file_location, line_start, line_end):
+    try:
+        # Read the Java file
+        with open(file_location, 'r') as file:
+            lines = file.readlines()
+
+        # Remove commented code within the specified line range
+        for line_num in range(line_start - 1, line_end):
+            if '//' in lines[line_num]:
+                lines[line_num] = lines[line_num].split('//')[0] + '\n'
+
+        # Write the modified Java file
+        with open(file_location, 'w') as file:
+            file.writelines(lines)
+
+        print("Commented code removed successfully.")
+    except FileNotFoundError:
+        print("File not found.")
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+
+
+vulnerability_fixes_dict = {
+    "remove commented code": remove_commented_code_java,
+    "replace the local variable with var": replace_local_variable_java,
+}
