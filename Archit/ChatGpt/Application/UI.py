@@ -21,8 +21,9 @@ def submit_form():
     user_password = entry_user_password.get()
     component_name = entry_component_name.get()
     folder_location = entry_folder_location.get()
+    branch_name = entry_branch_name.get()
 
-    sonar_script(user_id, user_password, component_name, folder_location)
+    sonar_script(user_id, user_password, component_name, folder_location, branch_name)
 
     window.destroy()  # Close the window
 
@@ -62,6 +63,12 @@ label_folder_location.pack(pady=10)
 
 entry_folder_location = tk.Entry(window, bg=ENTRY_BG_COLOR, fg=FG_COLOR, font=custom_font)
 entry_folder_location.pack(pady=5)
+
+label_branch_name = tk.Label(window, text="Branch Name:", bg=BG_COLOR, fg=FG_COLOR, font=custom_font)
+label_branch_name.pack(pady=10)
+
+entry_branch_name = tk.Entry(window, bg=ENTRY_BG_COLOR, fg=FG_COLOR, font=custom_font)
+entry_branch_name.pack(pady=5)
 
 button_browse_folder = tk.Button(window, text="Browse Folder", command=browse_folder, bg=BUTTON_BG_COLOR, fg=FG_COLOR, font=custom_font)
 button_browse_folder.pack(pady=20)

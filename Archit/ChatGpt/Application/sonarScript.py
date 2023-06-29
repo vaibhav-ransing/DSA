@@ -4,9 +4,9 @@ import sonarFunctions
 import templateFunctions as templateFunctions
 from sonarFunctions import vulnerability_fixes_dict
 
-def sonar_script(user_id, user_password, component_name, folder_location):
+def sonar_script(user_id, user_password, component_name, folder_location, branch_name):
 
-    json_response = templateFunctions.run_curl_command(user_id, user_password, component_name)
+    json_response = templateFunctions.run_curl_command(user_id, user_password, component_name, branch_name)
 
     if json_response:
         print(json.dumps(json_response, indent=4))
