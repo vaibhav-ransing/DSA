@@ -1,6 +1,7 @@
-error_message = "remove the unused import' com.src.service.test.java' "
+import json
 
-if "remove the unused import" in error_message:
-    print("The error message contains 'remove the unused import'")
-else:
-    print("The error message does not contain 'remove the unused import'")
+# Read JSON from file
+with open("data.json", "r") as file:
+    json_data = json.load(file)
+    
+print(json_data)

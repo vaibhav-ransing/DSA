@@ -29,6 +29,8 @@ def sonar_script(user_id, user_password, component_name, folder_location):
             print(content)
         if "remove the unused import" in error_message:
             sonarFunctions.remove_unused_import(absolutePath, json_response[0].line_no)
+        if "cognitive complexity" in error_message:
+            print("Manual efforts required")
         else:
             if error_message in vulnerability_fixes_dict:
                 fix_function = vulnerability_fixes_dict[error_message]
