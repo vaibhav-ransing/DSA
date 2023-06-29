@@ -27,16 +27,18 @@ def sonar_script(user_id, user_password, component_name, folder_location):
         with open(absolutePath, 'r') as file:
             content  = file.read()
             print(content)
-
-        if error_message in vulnerability_fixes_dict:
-            fix_function = vulnerability_fixes_dict[error_message]
-            if 'line_start' in entry and 'line_end' in entry:
-                line_start = entry['line_start']
-                line_end = entry['line_end']
-                fix_function(absolutePath, line_start, line_end)
-            elif 'line_no' in entry:
-                line_no = entry['line_no']
-                fix_function(absolutePath, line_no)
+        if "remove the unused import" in error_message:
+            sonarFunctions.remove_unused_import(absolutePath, json_response[0].line_no)
+        else:
+            if error_message in vulnerability_fixes_dict:
+                fix_function = vulnerability_fixes_dict[error_message]
+                if 'line_start' in entry and 'line_end' in entry:
+                    line_start = entry['line_start']
+                    line_end = entry['line_end']
+                    fix_function(absolutePath, line_start, line_end)
+                elif 'line_no' in entry:
+                    line_no = entry['line_no']
+                    fix_function(absolutePath, line_no)
     else:
         print(f"No fix function found for error message: {error_message}")
 

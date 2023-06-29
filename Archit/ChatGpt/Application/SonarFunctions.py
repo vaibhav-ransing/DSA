@@ -42,8 +42,19 @@ def remove_commented_code_java(file_location, line_start, line_end):
     except Exception as e:
         print(f"An error occurred: {str(e)}")
 
+def remove_unused_import(file_location, line_number):
+    with open(file_location, "r") as file:
+        lines = file.readlines()
+
+    if line_number <= len(lines):
+        del lines[line_number - 1]
+
+    with open(file_location, "w") as file:
+        file.writelines(lines)
+
 
 vulnerability_fixes_dict = {
     "remove commented code": remove_commented_code_java,
     "replace the local variable with var": replace_local_variable_java,
+    "remove the unused import" : remove_unused_import
 }
