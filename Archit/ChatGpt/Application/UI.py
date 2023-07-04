@@ -66,19 +66,23 @@ def submit_form():
     component_name = entry_component_name.get()
     folder_location = entry_folder_location.get()
 
-    message = check_vulnerabilities(user_id, user_password, component_name, folder_location, branch_name)
-    show_confirmation_popup(message, user_id, user_password, component_name, folder_location, branch_name)
+    # Check if all inputs are filled
+    if user_id and user_password and branch_name and component_name and folder_location:
+        message = check_vulnerabilities(user_id, user_password, component_name, folder_location, branch_name)
+        show_confirmation_popup(message, user_id, user_password, component_name, folder_location, branch_name)
+    else:
+        messagebox.showwarning("Incomplete Form", "Please fill in all the required fields.")
 
 # Create the main window
 window = tk.Tk()
-window.title("Sonar Vulnerability Fix")
+window.title("Code Glance")
 window.config(bg=BG_COLOR)
 
 # Set custom font for all widgets
 custom_font = ("Arial", 12)
 
 # Create and arrange the heading label
-label_heading = tk.Label(window, text="Sonar Vulnerability Fix", bg=BG_COLOR, fg=FG_COLOR, font=HEADING_FONT)
+label_heading = tk.Label(window, text="Code Glance", bg=BG_COLOR, fg=FG_COLOR, font=HEADING_FONT)
 label_heading.pack(pady=20)
 
 # Create and arrange the user input fields
