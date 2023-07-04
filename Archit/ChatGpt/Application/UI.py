@@ -1,15 +1,13 @@
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
-from sonarScript import sonar_script
-from sonarScript import check_vulnerabilities
 
 # Dark mode theme colors
 BG_COLOR = "#2E3440"  # Background color
 FG_COLOR = "#F8F8F2"  # Foreground color
 ENTRY_BG_COLOR = "#4C566A"  # Entry widget background color
 BUTTON_BG_COLOR = "#6272A4"  # Button widget background color
-HEADING_FONT = ("Arial", 18, "bold")  # Heading font
+HEADING_FONT = ("Arial", 26, "bold")  # Heading font
 ENTRY_BORDER_WIDTH = 0  # Border width for the entry widgets
 
 def browse_folder():
@@ -18,10 +16,15 @@ def browse_folder():
         entry_folder_location.delete(0, tk.END)
         entry_folder_location.insert(tk.END, folder_path)
 
-def show_confirmation_popup(message, user_id, user_password, component_name, folder_location, branch_name):
-    response = messagebox.askquestion("Confirmation", message, icon="warning")
-    if response == "yes":
-        sonar_script(user_id, user_password, component_name, folder_location, branch_name)
+def browse_report():
+    report_path = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")])
+    if report_path:
+        entry_report_location.delete(0, tk.END)
+        entry_report_location.insert(tk.END, report_path)
+
+def show_confirmation_popup(message):
+    response = messagebox.showinfo("Confirmation", message)
+    if response == "ok":
         show_ok_popup("All the vulnerabilities are fixed")
 
 def show_ok_popup(message):
@@ -65,18 +68,72 @@ def submit_form():
     branch_name = entry_branch_name.get()
     component_name = entry_component_name.get()
     folder_location = entry_folder_location.get()
+    report_location = entry_report_location.get()
 
     # Check if all inputs are filled
     if user_id and user_password and branch_name and component_name and folder_location:
-        message = check_vulnerabilities(user_id, user_password, component_name, folder_location, branch_name)
-        show_confirmation_popup(message, user_id, user_password, component_name, folder_location, branch_name)
+        message = "All inputs are filled.\nUser ID: {}\nUser Password: {}\nBranch Name: {}\nComponent Name: {}\nFolder Location: {}\nReport Location: {}".format(
+            user_id, user_password, branch_name, component_name, folder_location, report_location)
+        show_confirmation_popup(message)
     else:
         messagebox.showwarning("Incomplete Form", "Please fill in all the required fields.")
+
+def on_radio_select():
+    selection = radio_var.get()
+    if selection == 1:  # "Yes" is selected
+        label_user_id.place_forget()
+        label_user_password.place_forget()
+        label_branch_name.place_forget()
+        label_component_name.place_forget()
+        
+        entry_user_id.place_forget()
+        entry_user_password.place_forget()
+        entry_branch_name.place_forget()
+        entry_component_name.place_forget()
+        
+        label_folder_location.place(relx=0.05, rely=0.45, relwidth=0.4, relheight=0.05)
+        entry_folder_location.place(relx=0.5, rely=0.45, relwidth=0.4, relheight=0.05)
+        button_browse_folder.place(relx=0.85, rely=0.45, relwidth=0.1, relheight=0.05)
+
+        label_report_location.place(relx=0.05, rely=0.53, relwidth=0.4, relheight=0.05)
+        entry_report_location.place(relx=0.5, rely=0.53, relwidth=0.4, relheight=0.05)
+        button_browse_report.place(relx=0.85, rely=0.53, relwidth=0.1, relheight=0.05)
+        
+        button_submit.place(relx=0.5, rely=0.7, anchor="center")
+    elif selection == 2:  # "No" is selected
+        label_folder_location.place(relx=0.05, rely=0.45, relwidth=0.4, relheight=0.05)
+        entry_folder_location.place(relx=0.5, rely=0.45, relwidth=0.4, relheight=0.05)
+        button_browse_folder.place(relx=0.85, rely=0.45, relwidth=0.1, relheight=0.05)
+
+        label_user_id.place(relx=0.05, rely=0.53, relwidth=0.4, relheight=0.05)
+        label_user_password.place(relx=0.05, rely=0.61, relwidth=0.4, relheight=0.05)
+        label_branch_name.place(relx=0.05, rely=0.69, relwidth=0.4, relheight=0.05)
+        label_component_name.place(relx=0.05, rely=0.77, relwidth=0.4, relheight=0.05)
+        
+        entry_user_id.place(relx=0.5, rely=0.53, relwidth=0.4, relheight=0.05)
+        entry_user_password.place(relx=0.5, rely=0.61, relwidth=0.4, relheight=0.05)
+        entry_branch_name.place(relx=0.5, rely=0.69, relwidth=0.4, relheight=0.05)
+        entry_component_name.place(relx=0.5, rely=0.77, relwidth=0.4, relheight=0.05)
+        
+        button_submit.place(relx=0.5, rely=0.85, anchor="center")
 
 # Create the main window
 window = tk.Tk()
 window.title("Code Glance")
 window.config(bg=BG_COLOR)
+
+# Set the window size
+window_width = 600
+window_height = 700
+window.geometry(f"{window_width}x{window_height}")
+
+# Center the window on the screen
+screen_width = window.winfo_screenwidth()
+screen_height = window.winfo_screenheight()
+x_coordinate = int((screen_width / 2) - (window_width / 2))
+y_coordinate = int((screen_height / 2) - (window_height / 2))
+window.geometry(f"{window_width}x{window_height}+{x_coordinate}+{y_coordinate}")
+
 
 # Set custom font for all widgets
 custom_font = ("Arial", 12)
@@ -85,74 +142,63 @@ custom_font = ("Arial", 12)
 label_heading = tk.Label(window, text="Code Glance", bg=BG_COLOR, fg=FG_COLOR, font=HEADING_FONT)
 label_heading.pack(pady=20)
 
-# Create and arrange the user input fields
-label_user_id = tk.Label(window, text="User ID:", bg=BG_COLOR, fg=FG_COLOR, font=custom_font)
-label_user_id.pack(pady=10)
+# Create and arrange the radio button label
+label_radio = tk.Label(window, text="Do you have a Sonar report?", bg=BG_COLOR, fg=FG_COLOR, font=custom_font)
+label_radio.pack()
 
-entry_user_id = tk.Entry(window, bg=ENTRY_BG_COLOR, fg=FG_COLOR, font=custom_font, relief=tk.FLAT, bd=ENTRY_BORDER_WIDTH)
-entry_user_id.pack(pady=5)
+# Create and arrange the radio buttons
+radio_var = tk.IntVar()
+radio_yes = tk.Radiobutton(window, text="Yes", variable=radio_var, value=1, command=on_radio_select, bg=BG_COLOR, fg=FG_COLOR, font=custom_font, selectcolor=BG_COLOR)
+radio_yes.place(relx=0.4, rely=0.2, anchor="center")
+
+radio_no = tk.Radiobutton(window, text="No", variable=radio_var, value=2, command=on_radio_select, bg=BG_COLOR, fg=FG_COLOR, font=custom_font, selectcolor=BG_COLOR)
+radio_no.place(relx=0.6, rely=0.2, anchor="center")
+
+# Create and arrange the entry fields and labels
+label_user_id = tk.Label(window, text="User ID:", bg=BG_COLOR, fg=FG_COLOR, font=custom_font)
+label_user_id.place_forget()
+
+entry_user_id = tk.Entry(window, bg=ENTRY_BG_COLOR, fg=FG_COLOR, font=custom_font, bd=ENTRY_BORDER_WIDTH)
+entry_user_id.place_forget()
 
 label_user_password = tk.Label(window, text="User Password:", bg=BG_COLOR, fg=FG_COLOR, font=custom_font)
-label_user_password.pack(pady=10)
+label_user_password.place_forget()
 
-entry_user_password = tk.Entry(window, show="*", bg=ENTRY_BG_COLOR, fg=FG_COLOR, font=custom_font, relief=tk.FLAT, bd=ENTRY_BORDER_WIDTH)
-entry_user_password.pack(pady=5)
+entry_user_password = tk.Entry(window, bg=ENTRY_BG_COLOR, fg=FG_COLOR, font=custom_font, bd=ENTRY_BORDER_WIDTH)
+entry_user_password.place_forget()
 
 label_branch_name = tk.Label(window, text="Branch Name:", bg=BG_COLOR, fg=FG_COLOR, font=custom_font)
-label_branch_name.pack(pady=10)
+label_branch_name.place_forget()
 
-entry_branch_name = tk.Entry(window, bg=ENTRY_BG_COLOR, fg=FG_COLOR, font=custom_font, relief=tk.FLAT, bd=ENTRY_BORDER_WIDTH)
-entry_branch_name.pack(pady=5)
+entry_branch_name = tk.Entry(window, bg=ENTRY_BG_COLOR, fg=FG_COLOR, font=custom_font, bd=ENTRY_BORDER_WIDTH)
+entry_branch_name.place_forget()
 
 label_component_name = tk.Label(window, text="Component Name:", bg=BG_COLOR, fg=FG_COLOR, font=custom_font)
-label_component_name.pack(pady=10)
+label_component_name.place_forget()
 
-entry_component_name = tk.Entry(window, bg=ENTRY_BG_COLOR, fg=FG_COLOR, font=custom_font, relief=tk.FLAT, bd=ENTRY_BORDER_WIDTH)
-entry_component_name.pack(pady=5)
+entry_component_name = tk.Entry(window, bg=ENTRY_BG_COLOR, fg=FG_COLOR, font=custom_font, bd=ENTRY_BORDER_WIDTH)
+entry_component_name.place_forget()
 
 label_folder_location = tk.Label(window, text="Folder Location:", bg=BG_COLOR, fg=FG_COLOR, font=custom_font)
-label_folder_location.pack(pady=10)
+label_folder_location.place(relx=0.05, rely=0.45, relwidth=0.4, relheight=0.05)
 
-entry_folder_location = tk.Entry(window, bg=ENTRY_BG_COLOR, fg=FG_COLOR, font=custom_font, relief=tk.FLAT, bd=ENTRY_BORDER_WIDTH)
-entry_folder_location.pack(pady=5)
+entry_folder_location = tk.Entry(window, bg=ENTRY_BG_COLOR, fg=FG_COLOR, font=custom_font, bd=ENTRY_BORDER_WIDTH)
+entry_folder_location.place(relx=0.5, rely=0.45, relwidth=0.4, relheight=0.05)
 
-button_browse_folder = tk.Button(window, text="Browse Folder", command=browse_folder, bg=BUTTON_BG_COLOR, fg=FG_COLOR, font=custom_font, relief=tk.FLAT)
-button_browse_folder.pack(pady=20)
+button_browse_folder = tk.Button(window, text="Browse", command=browse_folder, bg=BUTTON_BG_COLOR, fg=FG_COLOR, font=custom_font)
+button_browse_folder.place(relx=0.85, rely=0.45, relwidth=0.1, relheight=0.05)
 
-button_submit = tk.Button(window, text="Submit", command=submit_form, bg=BUTTON_BG_COLOR, fg=FG_COLOR, font=custom_font, relief=tk.FLAT)
-button_submit.pack(pady=10)
+label_report_location = tk.Label(window, text="Report Location:", bg=BG_COLOR, fg=FG_COLOR, font=custom_font)
+label_report_location.place(relx=0.05, rely=0.53, relwidth=0.4, relheight=0.05)
 
-# Set the window dimensions and center it on the screen
-window_width = 500
-window_height = 600
-screen_width = window.winfo_screenwidth()
-screen_height = window.winfo_screenheight()
-x_coordinate = int((screen_width/2) - (window_width/2))
-y_coordinate = int((screen_height/2) - (window_height/2))
-window.geometry(f"{window_width}x{window_height}+{x_coordinate}+{y_coordinate}")
+entry_report_location = tk.Entry(window, bg=ENTRY_BG_COLOR, fg=FG_COLOR, font=custom_font, bd=ENTRY_BORDER_WIDTH)
+entry_report_location.place(relx=0.5, rely=0.53, relwidth=0.4, relheight=0.05)
 
-# Configure smooth corners for the window
-window.overrideredirect(True)
-window.overrideredirect(False)
-window.attributes('-alpha', 0.95)
+button_browse_report = tk.Button(window, text="Browse", command=browse_report, bg=BUTTON_BG_COLOR, fg=FG_COLOR, font=custom_font)
+button_browse_report.place(relx=0.85, rely=0.53, relwidth=0.1, relheight=0.05)
 
-# Add a drop shadow effect to the window
-window_shadow = tk.Toplevel(window)
-window_shadow.geometry(window.geometry())
-window_shadow.configure(bg="#000000")
-window_shadow.attributes("-alpha", 0.2)
-window_shadow.attributes("-topmost", True)
-window_shadow.overrideredirect(True)
-window_shadow.lift(window)
+button_submit = tk.Button(window, text="Submit", command=submit_form, bg=BUTTON_BG_COLOR, fg=FG_COLOR, font=custom_font)
+button_submit.place(relx=0.5, rely=0.7, anchor="center")
 
-# Update window shadow position and size when the main window is moved or resized
-def update_window_shadow(event):
-    window_shadow.geometry(window.geometry())
-window.bind("<Configure>", update_window_shadow)
-
-# Bring the window to the front and focus it
-window.lift()
-window.focus_force()
-
-# Start the main loop
+# Run the main window's event loop
 window.mainloop()
