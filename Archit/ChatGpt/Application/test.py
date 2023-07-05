@@ -1,36 +1,15 @@
 import pandas as pd
 
-# Read the Excel template
-template_file = 'vulTemp.xlsx'
-df_template = pd.read_excel(template_file)
+# Create a sample DataFrame
+data = {
+    'Column1': [1, 2, 3, 4, 5],
+    'Column2': ['A', 'B', 'C', 'D', 'E'],
+    'Column3': [0.1, 0.2, 0.3, 0.4, 0.5]
+}
 
-# Make a copy of the template
-df_copy = df_template.copy()
+df = pd.DataFrame(data)
 
-# Specify the row and column to write the value
-row_index = 0  # Example: row index 2 (0-based indexing)
-col_index  = 2  # Example: column B
+# Generate a random sample of 3 rows from the DataFrame
+sample = df.sample(n=3, random_state=42)  # Set a random_state for reproducibility
 
-# Write a value to the specified row and column
-value = 'Hello, World!'
-df_copy.iat[row_index, col_index ] = value
-
-
-
-
-
-
-# Append an empty row to the DataFrame
-df_copy = pd.concat([df_copy, pd.DataFrame([{}])], ignore_index=True)
-
-row_index = 11  # Example: row index 2 (0-based indexing)
-col_index  = 1  # Example: column B
-
-# Write a value to the specified row and column
-value = 'C/user/test.java'
-df_copy.iat[row_index, col_index ] = value
-
-
-# Save the modified copy to a new Excel file
-output_file = 'output.xlsx'
-df_copy.to_excel(output_file, index=False)
+print(sample)
