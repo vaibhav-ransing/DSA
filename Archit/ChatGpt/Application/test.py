@@ -1,17 +1,36 @@
-import subprocess
-import json
+import pandas as pd
 
-def fetch_issues(user_id, user_password, component_name):
-    curl_command = f'curl -k -X GET -u {user_id}:{user_password} "https://next.sonarqube.com/sonarqube/web_api/api/issues/search?componentKeys={component_name}"'
-    output = subprocess.check_output(curl_command, shell=True)
-    json_data = json.loads(output)
+# Read the Excel template
+template_file = 'vulTemp.xlsx'
+df_template = pd.read_excel(template_file)
 
-    # Process the JSON response
-    # ...
+# Make a copy of the template
+df_copy = df_template.copy()
 
-# Example usage
-user_id = "your_user_id"
-user_password = "your_user_password"
-component_name = "your_component_name"
+# Specify the row and column to write the value
+row_index = 0  # Example: row index 2 (0-based indexing)
+col_index  = 2  # Example: column B
 
-fetch_issues(user_id, user_password, component_name)
+# Write a value to the specified row and column
+value = 'Hello, World!'
+df_copy.iat[row_index, col_index ] = value
+
+
+
+
+
+
+# Append an empty row to the DataFrame
+df_copy = pd.concat([df_copy, pd.DataFrame([{}])], ignore_index=True)
+
+row_index = 11  # Example: row index 2 (0-based indexing)
+col_index  = 1  # Example: column B
+
+# Write a value to the specified row and column
+value = 'C/user/test.java'
+df_copy.iat[row_index, col_index ] = value
+
+
+# Save the modified copy to a new Excel file
+output_file = 'output.xlsx'
+df_copy.to_excel(output_file, index=False)
