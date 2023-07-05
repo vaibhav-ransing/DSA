@@ -63,6 +63,7 @@ def show_ok_popup(message):
     window.wait_window(popup_window)
 
 def submit_form():
+    selection = radio_var.get()
     user_id = entry_user_id.get()
     user_password = entry_user_password.get()
     branch_name = entry_branch_name.get()
@@ -70,13 +71,21 @@ def submit_form():
     folder_location = entry_folder_location.get()
     report_location = entry_report_location.get()
 
-    # Check if all inputs are filled
-    if user_id and user_password and branch_name and component_name and folder_location:
-        message = "All inputs are filled.\nUser ID: {}\nUser Password: {}\nBranch Name: {}\nComponent Name: {}\nFolder Location: {}\nReport Location: {}".format(
-            user_id, user_password, branch_name, component_name, folder_location, report_location)
-        show_confirmation_popup(message)
-    else:
-        messagebox.showwarning("Incomplete Form", "Please fill in all the required fields.")
+    # Check if all required inputs are filled
+    if selection == 1:  # "Yes" is selected
+        if folder_location and report_location:
+            message = "All inputs are filled.\nFolder Location: {}\nReport Location: {}".format(
+                folder_location, report_location)
+            show_confirmation_popup(message)
+        else:
+            messagebox.showwarning("Incomplete Form", "Please fill in all the required fields.")
+    elif selection == 2:  # "No" is selected
+        if folder_location and report_location and user_id and user_password and branch_name and component_name:
+            message = "All inputs are filled.\nUser ID: {}\nUser Password: {}\nBranch Name: {}\nComponent Name: {}\nFolder Location: {}\nReport Location: {}".format(
+                user_id, user_password, branch_name, component_name, folder_location, report_location)
+            show_confirmation_popup(message)
+        else:
+            messagebox.showwarning("Incomplete Form", "Please fill in all the required fields.")
 
 def on_radio_select():
     selection = radio_var.get()
@@ -105,17 +114,23 @@ def on_radio_select():
         entry_folder_location.place(relx=0.5, rely=0.45, relwidth=0.4, relheight=0.05)
         button_browse_folder.place(relx=0.85, rely=0.45, relwidth=0.1, relheight=0.05)
 
-        label_user_id.place(relx=0.05, rely=0.53, relwidth=0.4, relheight=0.05)
-        label_user_password.place(relx=0.05, rely=0.61, relwidth=0.4, relheight=0.05)
-        label_branch_name.place(relx=0.05, rely=0.69, relwidth=0.4, relheight=0.05)
-        label_component_name.place(relx=0.05, rely=0.77, relwidth=0.4, relheight=0.05)
-        
-        entry_user_id.place(relx=0.5, rely=0.53, relwidth=0.4, relheight=0.05)
-        entry_user_password.place(relx=0.5, rely=0.61, relwidth=0.4, relheight=0.05)
-        entry_branch_name.place(relx=0.5, rely=0.69, relwidth=0.4, relheight=0.05)
-        entry_component_name.place(relx=0.5, rely=0.77, relwidth=0.4, relheight=0.05)
-        
-        button_submit.place(relx=0.5, rely=0.85, anchor="center")
+        label_report_location.place(relx=0.05, rely=0.53, relwidth=0.4, relheight=0.05)
+        entry_report_location.place(relx=0.5, rely=0.53, relwidth=0.4, relheight=0.05)
+        button_browse_report.place(relx=0.85, rely=0.53, relwidth=0.1, relheight=0.05)
+
+        label_user_id.place(relx=0.05, rely=0.61, relwidth=0.4, relheight=0.05)
+        entry_user_id.place(relx=0.5, rely=0.61, relwidth=0.4, relheight=0.05)
+
+        # Adjust the vertical positions of the remaining labels and entry widgets
+        label_user_password.place(relx=0.05, rely=0.69, relwidth=0.4, relheight=0.05)
+        entry_user_password.place(relx=0.5, rely=0.69, relwidth=0.4, relheight=0.05)
+        label_branch_name.place(relx=0.05, rely=0.77, relwidth=0.4, relheight=0.05)
+        entry_branch_name.place(relx=0.5, rely=0.77, relwidth=0.4, relheight=0.05)
+        label_component_name.place(relx=0.05, rely=0.85, relwidth=0.4, relheight=0.05)
+        entry_component_name.place(relx=0.5, rely=0.85, relwidth=0.4, relheight=0.05)
+
+        button_submit.place(relx=0.5, rely=0.92, anchor="center")
+
 
 # Create the main window
 window = tk.Tk()
@@ -180,22 +195,23 @@ entry_component_name = tk.Entry(window, bg=ENTRY_BG_COLOR, fg=FG_COLOR, font=cus
 entry_component_name.place_forget()
 
 label_folder_location = tk.Label(window, text="Folder Location:", bg=BG_COLOR, fg=FG_COLOR, font=custom_font)
-label_folder_location.place(relx=0.05, rely=0.45, relwidth=0.4, relheight=0.05)
+# label_folder_location.place(relx=0.05, rely=0.45, relwidth=0.4, relheight=0.05)
+label_folder_location.place_forget()
 
 entry_folder_location = tk.Entry(window, bg=ENTRY_BG_COLOR, fg=FG_COLOR, font=custom_font, bd=ENTRY_BORDER_WIDTH)
-entry_folder_location.place(relx=0.5, rely=0.45, relwidth=0.4, relheight=0.05)
+entry_folder_location.place_forget()
 
 button_browse_folder = tk.Button(window, text="Browse", command=browse_folder, bg=BUTTON_BG_COLOR, fg=FG_COLOR, font=custom_font)
-button_browse_folder.place(relx=0.85, rely=0.45, relwidth=0.1, relheight=0.05)
+button_browse_folder.place_forget()
 
 label_report_location = tk.Label(window, text="Report Location:", bg=BG_COLOR, fg=FG_COLOR, font=custom_font)
-label_report_location.place(relx=0.05, rely=0.53, relwidth=0.4, relheight=0.05)
+label_report_location.place_forget()
 
 entry_report_location = tk.Entry(window, bg=ENTRY_BG_COLOR, fg=FG_COLOR, font=custom_font, bd=ENTRY_BORDER_WIDTH)
-entry_report_location.place(relx=0.5, rely=0.53, relwidth=0.4, relheight=0.05)
+entry_report_location.place_forget()
 
 button_browse_report = tk.Button(window, text="Browse", command=browse_report, bg=BUTTON_BG_COLOR, fg=FG_COLOR, font=custom_font)
-button_browse_report.place(relx=0.85, rely=0.53, relwidth=0.1, relheight=0.05)
+button_browse_report.place_forget()
 
 button_submit = tk.Button(window, text="Submit", command=submit_form, bg=BUTTON_BG_COLOR, fg=FG_COLOR, font=custom_font)
 button_submit.place(relx=0.5, rely=0.7, anchor="center")
