@@ -7,6 +7,7 @@ from sonarFunctions import vulnerability_fixes_dict
 
 def check_vulnerabilities(user_id, user_password, component_name, folder_location, branch_name):
     #  run sonar_script fucntion just dont apply fix get count
+    val = 10/0
     total_vulnerabilities = 100
     fixable_vulnerabilities = 24
 
@@ -17,7 +18,8 @@ def check_vulnerabilities(user_id, user_password, component_name, folder_locatio
 
  
 def sonar_script(user_id, user_password, component_name, folder_location, branch_name):
-
+    val = 10/0
+    print(val)
     print()
     # json_response = templateFunctions.run_curl_command(user_id, user_password, component_name, branch_name)
 

@@ -52,9 +52,12 @@ def show_confirmation_popup(message, user_id, user_password, component_name, fol
     button_frame.pack(pady=10)
 
     def on_yes():
-        sonar_script(user_id, user_password, component_name, folder_location, branch_name)
-        popup_window.destroy()
-        show_ok_popup("All the vulnerabilities are fixed \n Please check statistic report")
+        try:
+            sonar_script(user_id, user_password, component_name, folder_location, branch_name)
+            popup_window.destroy()
+            show_ok_popup("All the vulnerabilities are fixed \n Please check statistic report", False)
+        except Exception as e:
+            show_ok_popup("Please check your credentials", True)
        
     def on_no():
         popup_window.destroy()
@@ -75,7 +78,7 @@ def show_confirmation_popup(message, user_id, user_password, component_name, fol
     # Make the main window inactive until the popup window is closed
     window.wait_window(popup_window)
 
-def show_ok_popup(message):
+def show_ok_popup(message, falseCreds):
     # Create a Toplevel window for the OK popup
     popup_window = tk.Toplevel(window)
     popup_window.title("Success")
@@ -110,7 +113,7 @@ def show_ok_popup(message):
 
     def close_window():
         popup_window.destroy()
-        window.destroy()
+        if(falseCreds == False): window.destroy()
 
     button_ok = tk.Button(button_frame, text="OK", command=close_window, bg="#6272A4", fg="#F8F8F2", font=popup_custom_font, relief=tk.FLAT, width=8, height=1)  # Custom colors, reduced size
     button_ok.pack()
@@ -133,12 +136,17 @@ def submit_form():
     component_name = entry_component_name.get()
     folder_location = entry_folder_location.get()
 
+    
     # Check if all inputs are filled
     if user_id and user_password and branch_name and component_name and folder_location:
-        message = check_vulnerabilities(user_id, user_password, component_name, folder_location, branch_name)
-        show_confirmation_popup(message, user_id, user_password, component_name, folder_location, branch_name)
+        try:
+            message = check_vulnerabilities(user_id, user_password, component_name, folder_location, branch_name)
+            show_confirmation_popup(message, user_id, user_password, component_name, folder_location, branch_name)
+        except Exception as e:
+            show_ok_popup("Please check your credentials. \n", True)
     else:
-        messagebox.showwarning("Incomplete Form", "Please fill in all the required fields.")
+        show_ok_popup("Please fill all the input fields. \n", True)
+        
 
 # Create the main window
 window = tk.Tk()
