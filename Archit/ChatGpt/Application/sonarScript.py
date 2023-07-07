@@ -7,7 +7,14 @@ from sonarFunctions import vulnerability_fixes_dict
 
 def check_vulnerabilities(user_id, user_password, component_name, folder_location, branch_name):
     #  run sonar_script fucntion just dont apply fix get count
-    return " total vulnerabilies found 100 fixable are 15"
+    total_vulnerabilities = 100
+    fixable_vulnerabilities = 24
+
+    return f"Total Vulnerabilities Found = {total_vulnerabilities}\n" \
+          f"Fixable Vulnerabilities = {fixable_vulnerabilities}\n" \
+          "Do you want to proceed ?"
+
+
  
 def sonar_script(user_id, user_password, component_name, folder_location, branch_name):
 
