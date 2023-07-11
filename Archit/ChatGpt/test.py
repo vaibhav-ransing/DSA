@@ -1,3 +1,5 @@
+import re
+
 def replace_local_variable_java(file_location, line_number):
     # Open the file in read mode
     with open(file_location, 'r') as file:
@@ -8,13 +10,12 @@ def replace_local_variable_java(file_location, line_number):
         line = lines[line_number - 1]
 
         # List of variable types to replace
-        variable_types = ['StringBuilder', 'String', 'int', 'MyClass']
+        variable_types = ['String', 'int', 'StringBuilder']
 
-        # Replace the first occurrence of variable types with 'var'
+        # Replace the first occurrence of variable types with 'var' (whole word match)
         for variable_type in variable_types:
-            if variable_type in line:
-                line = line.replace(variable_type, 'var', 1)
-                break
+            pattern = r'\b{}\b'.format(variable_type)
+            line = re.sub(pattern, 'var', line, count=1)
 
         # Update the line in the lines list
         lines[line_number - 1] = line
