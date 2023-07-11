@@ -1,12 +1,9 @@
 public class code{
-
-
-
+    private String test = "hello";
     public static void main(String[] args) {
-        
-        StringName var name = "vaibav";
-        print var nameString = new StringBuilder("nameString");
-        var age = 10;
+        String name = "vaibav";
+        StringBuilder nameString = new StringBuilder("nameString");
+        int age = 10;
 
     }
 }
