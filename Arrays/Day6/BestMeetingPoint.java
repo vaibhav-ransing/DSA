@@ -1,4 +1,3 @@
-package Arrays.Day6;
 
 import java.util.ArrayList;
 
