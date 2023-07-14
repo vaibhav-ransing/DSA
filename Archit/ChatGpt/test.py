@@ -1,44 +1,53 @@
-def show_loading_popup():
-    # Create the loading popup window
-    popup_window = tk.Toplevel(window)
-    popup_window.title("Loading")
-    popup_window.configure(bg=BG_COLOR)
-    popup_window.attributes("-topmost", True)
+import threading
 
-    # Center the popup window
-    popup_window_width = 300
-    popup_window_height = 150
-    popup_x = window.winfo_x() + int((window_width - popup_window_width) / 2)
-    popup_y = window.winfo_y() + int((window_height - popup_window_height) / 2)
-    popup_window.geometry(f"{popup_window_width}x{popup_window_height}+{popup_x}+{popup_y}")
+def show_confirmation_popup(message, user_id, user_password, component_name, folder_location, branch_name):
+    response = messagebox.askquestion("Confirmation", message, icon="warning")
+    if response == "yes":
+        # Create the loading popup window
+        loading_popup = tk.Toplevel(window)
+        loading_popup.title("Loading")
+        loading_popup.configure(bg=BG_COLOR)
+        loading_popup.attributes("-topmost", True)
 
-    # Set custom font for the popup window
-    popup_custom_font = ("Arial", 14)
+        # Center the loading popup window
+        loading_popup_width = 300
+        loading_popup_height = 150
+        loading_popup_x = window.winfo_x() + int((window_width - loading_popup_width) / 2)
+        loading_popup_y = window.winfo_y() + int((window_height - loading_popup_height) / 2)
+        loading_popup.geometry(f"{loading_popup_width}x{loading_popup_height}+{loading_popup_x}+{loading_popup_y}")
 
-    # Create and arrange the label with the loading message
-    label_loading = tk.Label(popup_window, text="Loading...", bg=BG_COLOR, fg=FG_COLOR, font=popup_custom_font)
-    label_loading.pack(pady=20)
+        # Set custom font for the loading popup window
+        loading_popup_custom_font = ("Arial", 14)
 
-    # Disable the main window
-    window.config(state="disabled")
+        # Create and arrange the label with the loading message
+        label_loading = tk.Label(loading_popup, text="Loading...", bg=BG_COLOR, fg=FG_COLOR, font=loading_popup_custom_font)
+        label_loading.pack(pady=20)
 
-    # Update the main window to reflect the changes
-    window.update()
+        # Disable the main window
+        window.config(state="disabled")
 
-    # Run the sonar_script in a separate thread
-    def run_sonar_script():
-        # Simulate the sonar_script running for 3 seconds
-        time.sleep(3)
+        # Update the main window to reflect the changes
+        window.update()
 
-        # Enable the main window
-        window.config(state="normal")
+        # Run the sonar_script in a separate thread
+        def run_sonar_script():
+            try:
+                sonar_script(user_id, user_password, component_name, folder_location, branch_name)
+                # Enable the main window
+                window.config(state="normal")
 
-        # Close the loading popup
-        popup_window.destroy()
+                # Close the loading popup
+                loading_popup.destroy()
 
-        # Show the success popup
-        show_ok_popup("All the vulnerabilities are fixed")
+                # Show the success popup
+                show_ok_popup("All the vulnerabilities are fixed")
+            except Exception as e:
+                messagebox.showerror("Error", str(e))
 
-    # Start a new thread for running the sonar_script
-    thread = threading.Thread(target=run_sonar_script)
-    thread.start()
+        # Start a new thread for running the sonar_script
+        thread = threading.Thread(target=run_sonar_script)
+        thread.start()
+    else:
+        # If the user clicks "no", close the confirmation popup
+        messagebox.showinfo("Confirmation", "Action canceled")
+
