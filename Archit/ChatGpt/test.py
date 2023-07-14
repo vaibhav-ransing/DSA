@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import threading
 
-def show_loading_popup():
+def show_loading_popup(user_id, user_password, component_name, folder_location, branch_name):
     loading_popup = tk.Toplevel(window)
     loading_popup.title("Loading")
     loading_popup.configure(bg=BG_COLOR)
@@ -18,10 +18,18 @@ def show_loading_popup():
 
     # Create a frame for the content
     content_frame = tk.Frame(loading_popup, bg=BG_COLOR)
-    content_frame.pack(pady=20)
+    content_frame.pack(pady=10)
+
+    # Create and place the label with the loading message
+    label_loading = tk.Label(content_frame, text="Please wait, fixing vulnerabilities", bg=BG_COLOR, fg=FG_COLOR, font=loading_custom_font)
+    label_loading.pack()
+
+    # Create a frame for the progress bar
+    progress_frame = tk.Frame(loading_popup, bg=BG_COLOR)
+    progress_frame.pack(pady=10)
 
     # Create a progress bar widget
-    progress = ttk.Progressbar(content_frame, orient="horizontal", length=200, mode="indeterminate")
+    progress = ttk.Progressbar(progress_frame, orient="horizontal", length=200, mode="indeterminate")
     progress.pack()
 
     # Start the progress bar animation
@@ -32,7 +40,8 @@ def show_loading_popup():
 
     def simulate_loading():
         try:
-            # Simulating a long-running task
+            # Call the sonar_script function with the provided arguments
+            sonar_script(user_id, user_password, component_name, folder_location, branch_name)
             import time
             time.sleep(5)
 
@@ -43,12 +52,13 @@ def show_loading_popup():
             loading_popup.destroy()
 
             # Show a completion message
-            show_ok_popup("Task completed")
+            show_ok_popup("All the vulnerabilities are fixed\nPlease check the statistic report", False)
         except Exception as e:
-            show_ok_popup("Error occurred", True)
+            show_ok_popup("Please check your credentials", True)
 
     # Start a new thread for simulating the loading
     thread = threading.Thread(target=simulate_loading)
     thread.start()
 
-# Replace the previous show_loading_popup function with this updated version
+# Call the show_loading_popup function where appropriate in your code, based on your application's flow,
+# and provide the necessary arguments: user_id, user_password, component_name, folder_location, branch_name.
