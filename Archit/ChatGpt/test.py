@@ -23,21 +23,15 @@ def show_confirmation_popup(message, user_id, user_password, component_name, fol
         label_loading = tk.Label(loading_popup, text="Loading...", bg=BG_COLOR, fg=FG_COLOR, font=loading_popup_custom_font)
         label_loading.pack(pady=20)
 
-        # Update the loading popup window to reflect the changes
-        loading_popup.update()
-
         # Disable the main window
-        window.config(state="disabled")
-
-        # Update the main window to reflect the changes
-        window.update()
+        window.grab_set()
 
         # Run the sonar_script in a separate thread
         def run_sonar_script():
             try:
                 sonar_script(user_id, user_password, component_name, folder_location, branch_name)
                 # Enable the main window
-                window.config(state="normal")
+                window.grab_release()
 
                 # Close the loading popup
                 loading_popup.destroy()
