@@ -8,6 +8,23 @@ if re.search(regex_pattern, error_message):
 else:
     print("The error message does not match the pattern.")
 
+def add_static_final_after_public(file_path, line_number):
+    # Read the content of the file
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+
+    # Check if the line_number is within the valid range
+    if 1 <= line_number <= len(lines):
+        line = lines[line_number - 1].strip()
+        # Check if the line starts with "public "
+        if line.startswith("public "):
+            # Add " static final" after "public "
+            lines[line_number - 1] = line.replace("public ", "public static final ", 1) + "\n"
+
+    # Write the modified content back to the file
+    with open(file_path, 'w') as file:
+        file.writelines(lines)
+
 
 
 def remove_if_statement(file_path, line_number):
@@ -45,4 +62,4 @@ def remove_if_statement(file_path, line_number):
 # Usage example:
 file_location = r"C:\Users\ADMIN\OneDrive\Desktop\Dsa\Archit\ChatGpt\code.java"
 line_number_to_remove = 1
-remove_if_statement(file_location, line_number_to_remove)
+add_static_final_after_public(file_location, 3)
