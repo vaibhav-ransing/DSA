@@ -11,9 +11,9 @@ df_filtered = pd.read_excel(xls, sheet_name='Filtered_Data')
 
 # Edit data in the DataFrame
 row_index = 0
-column_name = 'ColumnA'
+column_index = 0
 new_value = 'UpdatedValue'
-df_filtered.at[row_index, column_name] = new_value
+df_filtered.at[row_index, column_index] = new_value
 
 # Reopen the Excel file with the default "xlsxwriter" engine
 with pd.ExcelWriter(report_location, engine='xlsxwriter') as writer:
