@@ -22,5 +22,11 @@ writer = pd.ExcelWriter(report_location, engine='openpyxl')
 writer.book = wb
 
 # Save the modified DataFrame back to the "Filtered_Data" sheet using the new ExcelWriter
-with writer.save():
-    df_filtered.to_excel(writer, sheet_name='Filtered_Data', index=False)
+df_filtered.to_excel(writer, sheet_name='Filtered_Data', index=False)
+
+# Set "Filtered_Data" as the default sheet
+default_sheet_name = 'Filtered_Data'
+wb.active = wb.sheetnames.index(default_sheet_name)
+
+# Save the changes to the Excel file
+writer.save()
