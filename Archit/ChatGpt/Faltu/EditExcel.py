@@ -4,11 +4,10 @@ from openpyxl import load_workbook
 # Define the Excel file location
 report_location = 'your_excel_file.xlsx'
 
-# Load the existing Excel file
-xls = pd.ExcelFile(report_location)
-
-# Read the existing "Filtered_Data" sheet into a DataFrame
-df_filtered = pd.read_excel(xls, sheet_name='Filtered_Data')
+# Create your DataFrame for Sheet1
+columns = ['Column1', 'Column2', 'Column3']
+dataSheet1 = {'Column1': [1, 2, 3], 'Column2': [4, 5, 6], 'Column3': [7, 8, 9]}
+df_filtered = pd.DataFrame(dataSheet1, columns=columns)
 
 # Edit a specific cell using the iat method
 row_index = 0

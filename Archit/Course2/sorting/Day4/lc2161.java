@@ -16,7 +16,7 @@ public class lc2161 {
 
 
 
-.    public static void main(String[] args) {
+    public static void main(String[] args) {
 
     }
 }
