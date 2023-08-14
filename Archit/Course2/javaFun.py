@@ -10,14 +10,14 @@ def remove_unused_variable_from_line(file_location, line_no, unused_variable_nam
         # Split the line into individual variable declarations
         variable_declarations = line.split(';')
 
-        # Filter out the unused variable
-        updated_declarations = [decl.strip() for decl in variable_declarations if unused_variable_name not in decl]
+        # Filter out the unused variable and remove empty declarations
+        updated_declarations = [decl.strip() for decl in variable_declarations if unused_variable_name not in decl and decl.strip()]
 
         # Join the updated declarations back into a line
-        updated_line = '; '.join(updated_declarations) + ';'
+        updated_line = '; '.join(updated_declarations)
 
         # Update the line in the lines list
-        lines[line_no - 1] = updated_line + '\n'
+        lines[line_no - 1] = updated_line + ';\n' if updated_line else '\n'
 
         # Write the updated contents back to the file
         with open(file_location, 'w') as file:
@@ -26,5 +26,5 @@ def remove_unused_variable_from_line(file_location, line_no, unused_variable_nam
 # Test the function
 file_location = 'test.java'
 line_no = 1
-unused_variable_name = 'name'
+unused_variable_name = 'temp'
 remove_unused_variable_from_line(file_location, line_no, unused_variable_name)
