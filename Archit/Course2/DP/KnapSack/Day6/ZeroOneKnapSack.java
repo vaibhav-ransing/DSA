@@ -9,24 +9,33 @@ public class ZeroOneKnapSack {
             }
         }
 
-        int ans = memo(wt, 0, W, val, 0, dp);
+        int ans = memo(wt, 0, W, val, dp);
         return ans;
     }
 
-    static int memo(int[] wt, int idx, int W, int[] val, int ans, int[][] dp) {
+    static int memo(int[] wt, int idx, int W, int[] val,int[][] dp) {
         if (idx == wt.length || W == 0)
-            return ans;
+            return 0;
         
         if (dp[W][idx] != -1)
             return dp[W][idx];
 
-        int dontPick = memo(wt, idx + 1, W, val, ans, dp);
+        int dontPick = memo(wt, idx + 1, W, val, dp);
         int pick = 0;
         if (W >= wt[idx]) {
-            pick = memo(wt, idx + 1, W - wt[idx], val, ans + val[idx], dp);
+            pick = memo(wt, idx + 1, W - wt[idx], val, dp) + val[idx];
         }
         return dp[W][idx] = Math.max(pick, dontPick);
     }
+
+    static int tabulation(int W, int wt[], int val[], int n){
+
+
+        return 0;
+    }
+
+
+    
 
     public static void main(String[] args) {
 
