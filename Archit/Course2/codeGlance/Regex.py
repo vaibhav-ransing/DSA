@@ -10,7 +10,9 @@ def add_quotes_to_variable(file_path, line_number):
             match = re.search(r'\$[a-zA-Z_]\w*', line)
 
             if match:
+                print("match ", match)
                 variable = match.group()
+                print("variable ", variable)
                 modified_line = line.replace(variable, f'"{variable}"')
                 lines[line_number - 1] = modified_line
 
