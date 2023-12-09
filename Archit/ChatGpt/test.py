@@ -1,35 +1,39 @@
+import os
 import javalang
 
-# Function to extract methods and their child methods from a class declaration
+def get_java_files(src_location):
+    java_files = []
+    for root, dirs, files in os.walk(src_location):
+        for file in files:
+            if file.endswith(".java"):
+                java_files.append(os.path.join(root, file))
+    return java_files
+
 def extract_methods(class_declaration):
     methods = {}
-    for member in class_declaration.members:
-        if isinstance(member, javalang.tree.MethodDeclaration):
-            method_name = member.name
+    for _, node in class_declaration:
+        if isinstance(node, javalang.tree.MethodDeclaration):
+            method_name = node.name
             child_methods = []
-            # Extract child methods if available (assuming method body exists)
-            if member.body is not None:
-                for path, node in member.filter(javalang.tree.MethodInvocation):
-                    child_methods.append(node.member)
+            if node.body is not None:
+                for _, child_node in node.body.filter(javalang.tree.MethodInvocation):
+                    child_methods.append(child_node.member)
             methods[method_name] = child_methods
     return methods
 
-# Function to process Java code files
 def process_java_files(src_location):
     result = []
-    # Iterate through Java files in the source location
-    # Here you'd ideally traverse your directory structure to locate and read Java files
-    # For the sake of example, let's assume 'src_location' contains Java files
-    java_files = ['file1.java', 'file2.java']  # List of Java files
+    java_files = get_java_files(src_location)
     for java_file in java_files:
-        with open(src_location + java_file, 'r') as file:
+        with open(java_file, 'r') as file:
             code = file.read()
             tree = javalang.parse.parse(code)
             class_info = {}
-            for path, node in tree.filter(javalang.tree.ClassDeclaration):
-                class_name = node.name
-                class_methods = extract_methods(node)
-                class_info[class_name] = class_methods
+            for _, node in tree:
+                if isinstance(node, javalang.tree.ClassDeclaration):
+                    class_name = node.name
+                    class_methods = extract_methods(node.body)
+                    class_info[class_name] = class_methods
             result.append(class_info)
     return result
 
