@@ -1,5 +1,6 @@
 import re
 from common_functions import get_java_files
+import os
 
 def extract_called_methods_test_file(file_location):
     try:
@@ -34,7 +35,6 @@ def remove_test_prefix_or_postfix(input_string):
     return lowercase_string  # Return the original string if 'test' is not found as prefix or postfix
 
 
-import os
 
 def get_called_methods_in_test_files(src_location):
     java_files = get_java_files(src_location)
