@@ -14,25 +14,20 @@ def extract_methods(class_declaration):
     for path, node in class_declaration:
         if isinstance(node, javalang.tree.MethodDeclaration):
             method_name = node.name
-            # child_methods = []
-            # if node.body is not None:
-            #     try:
-            #         for _, statement in node.body:
-            #             if isinstance(statement, javalang.tree.MethodInvocation):
-            #                 child_methods.append(statement.member)
-            #     except ValueError:
-            #         pass  # Handle the case where node.body is not a list of pairs
-            # methods[method_name] = child_methods
             methods.append(method_name)
     
 
     return methods
 
+from pathlib import Path
+
 def process_java_files(src_location):
     classes_dict = {}
-    
+    controller_repository_service = {'controller': 0, 'repository': 0, 'service': 0}
     java_files = get_java_files(src_location)
+    
     for java_file in java_files:
+        file_path = Path(java_file)
         with open(java_file, 'r') as file:
             code = file.read()
             tree = javalang.parse.parse(code)
@@ -44,7 +39,16 @@ def process_java_files(src_location):
                     curr_file_dict["methods"] = class_methods
                     # curr_file_dict["code"] = code
                     classes_dict[class_name.lower()] = curr_file_dict
-    return classes_dict
+
+        # Check if the file path belongs to controller, repository, or service
+        if 'controller' in str(file_path):
+            controller_repository_service['controller'] += 1
+        elif 'repository' in str(file_path):
+            controller_repository_service['repository'] += 1
+        elif 'service' in str(file_path):
+            controller_repository_service['service'] += 1
+
+    return classes_dict, controller_repository_service
 
 # Example usage:
 # src_location = r'C:\Users\ADMIN\OneDrive\Desktop\Development\microservices\microservices\src\main\java\com\vaibhav\microservices\controller'
