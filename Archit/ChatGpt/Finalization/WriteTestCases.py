@@ -5,7 +5,7 @@ import javalang
 from pathlib import Path
 
 
-api_key = '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'
+api_key = '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'
 client = OpenAI(api_key=api_key)
 
 def get_java_files(src_location):
@@ -45,7 +45,9 @@ def process_java_files(src_location):
     return logic_classes_dict, model_classes_dict
 
 # src_location = r'C:\Users\ADMIN\OneDrive\Desktop\Development\SpringBasics\microservices\src\main\java\com\vaibhav\microservices'
-src_location = r'C:\Users\ADMIN\OneDrive\Desktop\Development\SpringBasics\microservices\src\main\java\com\vaibhav\microservices\temp'
+# src_location = r'C:\Users\ADMIN\OneDrive\Desktop\Development\SpringBasics\microservices\src\main\java\com\vaibhav\microservices\temp'
+src_location = r'C:\Users\ADMIN\OneDrive\Desktop\Development\SpringBasics\microservices\src\main\java\com\vaibhav\microservices\controller'
+
 logic_classes_dict, model_classes_dict = process_java_files(src_location)
 
 model_classes_string = ""
@@ -53,6 +55,9 @@ for class_name, class_info in model_classes_dict.items():
     class_code = class_info['code']
     model_classes_string += f"Class: {class_name}\n"
     model_classes_string += f"Code:\n{class_code}\n\n"
+
+with open("modelStr.txt", 'r') as file:
+    model_str_temp = file.read()
 
 print("Started")
 for class_name, class_info in logic_classes_dict.items():
@@ -63,23 +68,27 @@ for class_name, class_info in logic_classes_dict.items():
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "user", "content": f"Generate unit test case code for {code}, refer this model string if required {model_classes_string}"}
+            # {"role": "user", "content": f"Generate unit test case code for \n {code}, \n here are all the model classes \n {model_classes_string} \n note: only generate code no other text"}
+            {"role": "user", "content": f"Generate unit test case code for \n `{code}`, \n here are all the model classes \n `{model_str_temp}` \n note: only generate code and no other text, also keep all the necessay imports"}
         ]
     )
     
     # Retrieve the completion content using methods provided by the library
     completion_content = completion.choices[0].message.content
+    # generated_test_cases = extract_java_code(completion_content)
     generated_test_cases = completion_content
-    
+
     # Assuming test folder is a sibling to the src folder
     test_file_path = src_location.replace('main', 'test')
     test_file_path = os.path.join(test_file_path, f"{class_name}Test.java")
-    print("test_file_path, ", test_file_path)
+
     # Create directories if they don't exist
     os.makedirs(os.path.dirname(test_file_path), exist_ok=True)
 
     # Save the generated test cases to the test file
     with open(test_file_path, 'w') as test_file:
         test_file.write(generated_test_cases)
+    
+    print("Generated testcases for class ", class_name)
 
 print("Ended")

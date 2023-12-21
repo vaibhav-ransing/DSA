@@ -1,0 +1,107 @@
+Here is an example of unit test case code for the provided code:
+
+```
+package com.vaibhav.microservices.temp;
+
+import com.vaibhav.microservices.model.Employee;
+import com.vaibhav.microservices.service.EmployeeService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import java.util.ArrayList;
+import java.util.List;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+public class EmpControllerTest {
+
+    private MockMvc mockMvc;
+    
+    @InjectMocks
+    private EmpController empController;
+    
+    @Mock
+    private EmployeeService employeeService;
+    
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(empController).build();
+    }
+    
+    @Test
+    public void testSaveEmployee() throws Exception {
+        Employee employee = new Employee();
+        employee.setEmployeeId("1");
+        employee.setFirstName("John");
+        employee.setDepartment("IT");
+        
+        when(employeeService.save(employee)).thenReturn(employee);
+        
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/v1/employees/save")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"employeeId\":\"1\",\"firstName\":\"John\",\"department\":\"IT\"}");
+        
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    public void testGetAllEmployees() throws Exception {
+        Employee employee1 = new Employee("1", "John", "IT");
+        Employee employee2 = new Employee("2", "Jane", "HR");
+        List<Employee> employees = new ArrayList<>();
+        employees.add(employee1);
+        employees.add(employee2);
+        
+        when(employeeService.allEmployees()).thenReturn(employees);
+        
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/v1/employees/employees");
+        
+        MvcResult result = mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andReturn();
+        
+        // Assert the response content or status if needed
+    }
+
+    @Test
+    public void testGetEmployeeById() throws Exception {
+        Employee employee = new Employee("1", "John", "IT");
+        
+        when(employeeService.getEmployeeById(anyString())).thenReturn(employee);
+        
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/v1/employees/get/1");
+        
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andReturn();
+        
+        // Assert the response content or status if needed
+    }
+
+    @Test
+    public void testDeleteEmployeeById() throws Exception {
+        when(employeeService.deleteEmployeeById(anyString())).thenReturn("Employee deleted successfully");
+        
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/v1/employees/delete/1");
+        
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andReturn();
+        
+        // Assert the response content or status if needed
+    }
+}
+```
+
+Note: You need to make sure that you have the required dependencies (e.g., Mockito, JUnit, Spring Test) in your project to run the unit tests successfully. Adjust the imports accordingly.
