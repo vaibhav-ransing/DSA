@@ -22,7 +22,7 @@ public class NQueens {
                 System.out.println(ans);
             return;
         }
-
+        
         row = col == ans.size() ? row + 1 : row;
         col = col == ans.size() ? 0 : col;
 
