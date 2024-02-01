@@ -26,5 +26,3 @@ public class Combination {
         printCombinations(4, 2);
     }
 }
-
-
