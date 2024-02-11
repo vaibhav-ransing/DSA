@@ -19,10 +19,11 @@ public class Combination {
             boxArr[idx] = i;
             boxChooses(n, boxArr, i+1, idx+1);
         }
-        
+
     }
 
     public static void main(String[] args) {
         printCombinations(4, 2);
     }
+
 }
