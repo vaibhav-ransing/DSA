@@ -31,14 +31,17 @@ def lines_in_range(doc_text_lines, start, end):
 def get_string(word_type, doc_text_lines, start, end, pre_req_final_str, deploy_final_str, post_release_final_str):
     curr_line = lines_in_range(doc_text_lines, start, end)
     if word_type == 'pre_req':
-        print("hello - pre-req "+ curr_line)
+        print("hello - pre-req " + curr_line)
         pre_req_final_str += curr_line
     elif word_type == 'deploy':
         deploy_final_str += curr_line
     elif word_type == 'post_rel':
         post_release_final_str += curr_line
     else:
-        print("doesn no  match " ,word_type)
+        print("does not  match ", word_type)
+    print("************************", word_type, "*************************")
+    print(pre_req_final_str, deploy_final_str, post_release_final_str)
+    print("************************")
     return pre_req_final_str, deploy_final_str, post_release_final_str
 
 
@@ -49,19 +52,19 @@ doc_text_lines = read_docx(filename)
 def get_segregated_strings(doc_text_lines):
     start_idx = 0
     end_idx = 0
+    prev_word_type = ""  # pre_req, deploy, post_rel
 
     for index, line in enumerate(doc_text_lines):
         pre_req_final_str = ""
         deploy_final_str = ""
         post_release_final_str = ""
-        prev_word_type = ""  # pre_req, deploy, post_rel
 
         if find_word(line, pre_req_words):
             pre_req_final_str, deploy_final_str, post_release_final_str = get_string(
                 prev_word_type, doc_text_lines, start_idx, end_idx, pre_req_final_str, deploy_final_str, post_release_final_str)
 
+            # print("Pre_req " + str(start_idx) + " " + str(end_idx)+ " pre-word= ", prev_word_type)
             prev_word_type = "pre_req"
-            print("Pre_req " + str(start_idx) + " "+ str(end_idx))
             start_idx = index
             end_idx = index+1
 
@@ -71,7 +74,7 @@ def get_segregated_strings(doc_text_lines):
                 prev_word_type, doc_text_lines, start_idx, end_idx, pre_req_final_str, deploy_final_str, post_release_final_str)
 
             prev_word_type = "deploy"
-            print("deploy " + str(start_idx) + " "+str(end_idx))
+            # print("deploy " + str(start_idx) + " "+str(end_idx))
             start_idx = index
             end_idx = index+1
 
@@ -81,14 +84,17 @@ def get_segregated_strings(doc_text_lines):
                 prev_word_type, doc_text_lines, start_idx, end_idx, pre_req_final_str, deploy_final_str, post_release_final_str)
 
             prev_word_type = "post_rel"
-            print("post_rel " + str(start_idx) +" "+ str(end_idx))
+            # print("post_rel " + str(start_idx) + " " + str(end_idx))
             start_idx = index
             end_idx = index+1
 
         else:
             end_idx = end_idx + 1
+    print("----------------------")
     print(pre_req_final_str)
+    print("----------------------")
     print(deploy_final_str)
+    print("----------------------")
     print(post_release_final_str)
 
 
