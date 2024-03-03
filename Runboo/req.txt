@@ -1,0 +1,1 @@
+pip install python-docx   // for python 3 and above 
