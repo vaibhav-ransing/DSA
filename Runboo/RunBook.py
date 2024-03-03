@@ -49,11 +49,12 @@ def get_segregated_strings(doc_text_lines):
     start_idx = 0
     end_idx = 0
     prev_word_type = ""  # pre_req, deploy, post_rel
+    pre_req_final_str = ""
+    deploy_final_str = ""
+    post_release_final_str = ""
 
     for index, line in enumerate(doc_text_lines):
-        pre_req_final_str = ""
-        deploy_final_str = ""
-        post_release_final_str = ""
+        
 
         if find_word(line, pre_req_words):
             pre_req_final_str, deploy_final_str, post_release_final_str = get_string(
