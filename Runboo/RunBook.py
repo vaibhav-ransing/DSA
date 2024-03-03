@@ -31,7 +31,6 @@ def lines_in_range(doc_text_lines, start, end):
 def get_string(word_type, doc_text_lines, start, end, pre_req_final_str, deploy_final_str, post_release_final_str):
     curr_line = lines_in_range(doc_text_lines, start, end)
     if word_type == 'pre_req':
-        print("hello - pre-req " + curr_line)
         pre_req_final_str += curr_line
     elif word_type == 'deploy':
         deploy_final_str += curr_line
@@ -39,9 +38,6 @@ def get_string(word_type, doc_text_lines, start, end, pre_req_final_str, deploy_
         post_release_final_str += curr_line
     else:
         print("does not  match ", word_type)
-    print("************************", word_type, "*************************")
-    print(pre_req_final_str, deploy_final_str, post_release_final_str)
-    print("************************")
     return pre_req_final_str, deploy_final_str, post_release_final_str
 
 
