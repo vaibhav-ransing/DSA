@@ -29,7 +29,7 @@ def lines_in_range(doc_text_lines, start, end):
     return temp_str
 
 
-def get_string(word_type, doc_text_lines, start, end, pre_req_final_str, deploy_final_str, post_release_final_str):
+def get_string(word_type, doc_text_lines, start, end, pre_req_final_str, deploy_final_str, post_release_final_str, role_back_final_str):
     curr_line = lines_in_range(doc_text_lines, start, end)
     if word_type == 'pre_req':
         pre_req_final_str += curr_line
@@ -37,9 +37,9 @@ def get_string(word_type, doc_text_lines, start, end, pre_req_final_str, deploy_
         deploy_final_str += curr_line
     elif word_type == 'post_rel':
         post_release_final_str += curr_line
-    else:
-        print("does not  match ", word_type)
-    return pre_req_final_str, deploy_final_str, post_release_final_str
+    elif word_type == 'roleback':
+        role_back_final_str += curr_line
+    return pre_req_final_str, deploy_final_str, post_release_final_str, role_back_final_str
 
 
 filename = 'rb.docx'
@@ -53,12 +53,13 @@ def get_segregated_strings(doc_text_lines):
     pre_req_final_str = ""
     deploy_final_str = ""
     post_release_final_str = ""
+    role_back_final_str = ""
 
     for index, line in enumerate(doc_text_lines):
 
         if find_word(line, pre_req_words):
-            pre_req_final_str, deploy_final_str, post_release_final_str = get_string(
-                prev_word_type, doc_text_lines, start_idx, end_idx, pre_req_final_str, deploy_final_str, post_release_final_str)
+            pre_req_final_str, deploy_final_str, post_release_final_str, role_back_final_str = get_string(
+                prev_word_type, doc_text_lines, start_idx, end_idx, pre_req_final_str, deploy_final_str, post_release_final_str, role_back_final_str)
 
             # print("Pre_req " + str(start_idx) + " " + str(end_idx)+ " pre-word= ", prev_word_type)
             prev_word_type = "pre_req"
@@ -67,8 +68,8 @@ def get_segregated_strings(doc_text_lines):
 
         elif find_word(line, deploy_words):
 
-            pre_req_final_str, deploy_final_str, post_release_final_str = get_string(
-                prev_word_type, doc_text_lines, start_idx, end_idx, pre_req_final_str, deploy_final_str, post_release_final_str)
+            pre_req_final_str, deploy_final_str, post_release_final_str, role_back_final_str = get_string(
+                prev_word_type, doc_text_lines, start_idx, end_idx, pre_req_final_str, deploy_final_str, post_release_final_str, role_back_final_str)
 
             prev_word_type = "deploy"
             # print("deploy " + str(start_idx) + " "+str(end_idx))
@@ -77,8 +78,8 @@ def get_segregated_strings(doc_text_lines):
 
         elif find_word(line, post_release_words):
 
-            pre_req_final_str, deploy_final_str, post_release_final_str = get_string(
-                prev_word_type, doc_text_lines, start_idx, end_idx, pre_req_final_str, deploy_final_str, post_release_final_str)
+            pre_req_final_str, deploy_final_str, post_release_final_str, role_back_final_str = get_string(
+                prev_word_type, doc_text_lines, start_idx, end_idx, pre_req_final_str, deploy_final_str, post_release_final_str, role_back_final_str)
 
             prev_word_type = "post_rel"
             # print("post_rel " + str(start_idx) + " " + str(end_idx))
@@ -96,6 +97,8 @@ def get_segregated_strings(doc_text_lines):
     print(deploy_final_str)
     print("----------------------")
     print(post_release_final_str)
-
+    print("----------------------")
+    print(role_back_final_str)
+    
 
 get_segregated_strings(doc_text_lines)
