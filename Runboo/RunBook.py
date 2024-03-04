@@ -10,8 +10,9 @@ def read_docx(filename):
 
 
 pre_req_words = ["Prerequisite", "prereq", "pre-req"]
-deploy_words = ["deploy", "install"]
+deploy_words = ["deploy"] # , "install"
 post_release_words = ["Post Release", "post-release"]
+rollback_words = ["Rollback", "rollback"]
 
 
 def find_word(line, words_arr):
@@ -54,7 +55,6 @@ def get_segregated_strings(doc_text_lines):
     post_release_final_str = ""
 
     for index, line in enumerate(doc_text_lines):
-        
 
         if find_word(line, pre_req_words):
             pre_req_final_str, deploy_final_str, post_release_final_str = get_string(
@@ -84,6 +84,9 @@ def get_segregated_strings(doc_text_lines):
             # print("post_rel " + str(start_idx) + " " + str(end_idx))
             start_idx = index
             end_idx = index+1
+
+        elif find_word(line, rollback_words):
+            end_idx = end_idx + 1
 
         else:
             end_idx = end_idx + 1
