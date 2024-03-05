@@ -1,5 +1,5 @@
 import os
-import docx2txt
+from docx import Document
 
 def convert_folder_to_docx(doc_folder, docx_folder):
     # Create docx folder if it doesn't exist
@@ -11,9 +11,8 @@ def convert_folder_to_docx(doc_folder, docx_folder):
         if filename.endswith('.doc'):
             doc_file = os.path.join(doc_folder, filename)
             docx_file = os.path.join(docx_folder, filename.replace('.doc', '.docx'))
-            text = docx2txt.process(doc_file)
-            with open(docx_file, "w", encoding="utf-8") as f:
-                f.write(text)
+            doc = Document(doc_file)
+            doc.save(docx_file)
 
 # Paths to input and output folders
 doc_files_folder = 'doc_files'
