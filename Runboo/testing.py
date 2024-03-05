@@ -1,22 +1,34 @@
+import os
 from docx import Document
+from win32com import client
 
-def read_docx(filename):
-    doc = Document(filename)
-    full_text_arr = []
+def convert_to_docx(doc_file, docx_file):
+    # Open Word application
+    word = client.Dispatch("Word.Application")
+    # Open the .doc file
+    doc = word.Documents.Open(doc_file)
+    # Save as .docx
+    doc.SaveAs(docx_file, FileFormat=16)
+    # Close the document
+    doc.Close()
+    # Close Word application
+    word.Quit()
 
-    # Reading paragraphs
-    for para in doc.paragraphs:
-        full_text_arr.append(para.text)
+def convert_folder_to_docx(doc_folder, docx_folder):
+    # Create docx folder if it doesn't exist
+    if not os.path.exists(docx_folder):
+        os.makedirs(docx_folder)
+    
+    # Loop through .doc files in doc_folder
+    for filename in os.listdir(doc_folder):
+        if filename.endswith('.doc'):
+            doc_file = os.path.join(doc_folder, filename)
+            docx_file = os.path.join(docx_folder, filename.replace('.doc', '.docx'))
+            convert_to_docx(doc_file, docx_file)
 
-    # Reading tables
-    for table in doc.tables:
-        for row in table.rows:
-            for cell in row.cells:
-                full_text_arr.append(cell.text)
+# Paths to input and output folders
+doc_files_folder = 'doc_files'
+docx_files_folder = 'docx_files'
 
-    return full_text_arr
-
-# Usage
-text_content = read_docx('rb.docx')
-for item in text_content:
-    print(item)
+# Convert .doc files to .docx
+convert_folder_to_docx(doc_files_folder, docx_files_folder)
