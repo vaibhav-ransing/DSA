@@ -3,9 +3,15 @@ from docx import Document
 
 def read_docx(filename):
     doc = Document(filename)
+    test = ""
     full_text_arr = []
     for para in doc.paragraphs:
         full_text_arr.append(para.text)
+        test+=para.text +"\n"
+    
+    print("*"*12)
+    print(test)
+    print("*"*12)
     return full_text_arr
 
 
@@ -42,9 +48,11 @@ def get_string(word_type, doc_text_lines, start, end, pre_req_final_str, deploy_
     return pre_req_final_str, deploy_final_str, post_release_final_str, role_back_final_str
 
 
-filename = 'rb.docx'
+filename = 'test-runbook.docx'
 doc_text_lines = read_docx(filename)
-
+# print("*doc txt "*12)
+# print(doc_text_lines)
+# print("*"*12)
 
 def get_segregated_strings(doc_text_lines):
     start_idx = 0
@@ -91,14 +99,14 @@ def get_segregated_strings(doc_text_lines):
 
         else:
             end_idx = end_idx + 1
-    print("----------------------")
-    print(pre_req_final_str)
-    print("----------------------")
-    print(deploy_final_str)
-    print("----------------------")
-    print(post_release_final_str)
-    print("----------------------")
-    print(role_back_final_str)
+    # print("----------------------")
+    # print(pre_req_final_str)
+    # print("----------------------")
+    # print(deploy_final_str)
+    # print("----------------------")
+    # print(post_release_final_str)
+    # print("----------------------")
+    # print(role_back_final_str)
     
 
 get_segregated_strings(doc_text_lines)
