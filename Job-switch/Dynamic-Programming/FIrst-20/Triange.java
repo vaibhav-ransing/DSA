@@ -46,7 +46,7 @@ public class Triange {
         return min;
     }
 
-     public static int recursion(int[][] triangle, int row, int col, int[][] dp){
+    public static int recursion(int[][] triangle, int row, int col, int[][] dp){
         if(row == triangle.length - 1)  
             return triangle[row][col];
 
