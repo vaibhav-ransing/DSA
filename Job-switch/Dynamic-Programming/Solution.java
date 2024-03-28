@@ -1,37 +1,34 @@
-import java.util.*;
-
+import java.util.* ;
+import java.io.*; 
 public class Solution {
-    public static int minSubsetSumDifference(int[] arr, int n) {
-        n = arr.length;
-        int sum = Arrays.stream(arr).sum();
-        boolean[][] dp = new boolean[n + 1][sum + 1];
-        for (boolean[] row : dp) {
-            Arrays.fill(row, false);
+	public static int countPartitions(int n, int d, int[] arr) {
+		// Write your code here.
+		return tabulation(arr, d);
+	}
+
+	public static int tabulation(int arr[], int diff) {
+
+        int ts = Arrays.stream(arr).sum();
+
+        int s2 = (ts - diff) / 2;
+        int dp[][] = new int[arr.length + 1][s2 + 1];
+        dp[0][0] = 1;
+
+        for (int i = 1; i < dp.length; i++) {
+            for (int j = 0; j < dp[0].length; j++) {
+                if (j == 0) {
+                    dp[i][j] = 1;
+                } else {
+                    int dontTake = dp[i - 1][j];
+                    int take = 0;
+                    if (j - arr[i - 1] >= 0)
+                        take = dp[i - 1][j - arr[i - 1]];
+
+                    dp[i][j] = take + dontTake;
+                }
+            }
         }
 
-        dp[0][0] = true;
-
-        return memoizationHelper(arr, n, sum, dp);
-    }
-
-    public static int memoizationHelper(int[] arr, int n, int sum, boolean[][] dp) {
-        if (n == 0)
-            return sum;
-
-        if (dp[n][sum])
-            return sum;
-
-        dp[n][sum] = true;
-
-        int take = memoizationHelper(arr, n - 1, sum - arr[n - 1], dp);
-        int skip = memoizationHelper(arr, n - 1, sum, dp);
-
-        return Math.min(take, skip);
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {8, 6, 5};
-        int n = arr.length;
-        System.out.println("Minimum subset sum difference: " + minSubsetSumDifference(arr, n));
+        return dp[dp.length - 1][dp[0].length - 1];
     }
 }
