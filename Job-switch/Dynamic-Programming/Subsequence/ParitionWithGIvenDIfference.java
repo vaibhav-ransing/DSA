@@ -4,6 +4,9 @@ import java.util.Arrays;
 
 public class ParitionWithGIvenDIfference {
 
+    // https://leetcode.com/problems/target-sum/submissions/
+
+    
     public static int countPartitions(int n, int diff, int[] arr) {
         int sum = Arrays.stream(arr).sum();
         int[][][] dp = new int[n][sum + 1][sum + 1];

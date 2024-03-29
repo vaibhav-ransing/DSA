@@ -1,6 +1,7 @@
-import java.util.*;
+import java.util.Arrays;
 
-public class Solution {
+public class test {
+    
 
     public static int splitArray(int[] nums, int k) {
         int[] kSizeArr = new int[k];

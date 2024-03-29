@@ -1,7 +1,5 @@
 package Subsequence;
 
-import java.util.*;
-
 public class KnapSack01 {
 
     static int knapsack(int[] weight, int[] value, int n, int maxWeight) {
@@ -51,6 +49,41 @@ public class KnapSack01 {
 //  8  3 //  --  --  --  --  --  --
 //  6  4 //  --  --  --  --  --  --
 
+    }
+
+    public static int tabulationSpaceOptimize(int[] weight, int[] value, int n, int maxWeight){
+        
+        int pre[] = new int[maxWeight + 1];
+        
+        for(int i=0; i<weight.length; i++){
+            int curr[] = new int[maxWeight + 1];
+            for(int j=0; j<pre.length; j++){
+                int skip = pre[j];
+                int take = 0;
+                if(j - weight[i] >= 0)
+                    take = value[i] + pre[j-weight[i]];
+                curr[j] = Math.max(take, skip);
+            }
+            pre = curr;
+        }
+        return pre[maxWeight];
+
+    }
+
+    public static int mostOptimized(int[] weight, int[] value, int n, int maxWeight){
+        
+        int pre[] = new int[maxWeight + 1];
+        
+        for(int i=0; i<weight.length; i++){  
+            for(int j=maxWeight; j>=0; j--){ //  we start from end of prev, to fill pre[j] we only need values till pre[j-1]
+                int skip = pre[j];
+                int take = 0;
+                if(j - weight[i] >= 0)
+                    take = value[i] + pre[j-weight[i]];
+                pre[j] = Math.max(take, skip);
+            }
+        }
+        return pre[maxWeight];
     }
     public static void main(String[] args) {
         int[] weight = {1,2,3,4};
