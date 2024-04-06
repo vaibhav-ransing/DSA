@@ -1,6 +1,7 @@
 public class test {
     
     private static String decodeMessage(String message, String key) {
+
         StringBuilder decodedMessage = new StringBuilder();
         int keyIndex = 0;
         int index = 0;
@@ -20,9 +21,9 @@ public class test {
         return decodedMessage.toString();
     }
 
-    public boolean checkCharPresent(String message, int repeatInt){
+    // public boolean checkCharPresent(String message, int repeatInt){
 
-    }
+    // }
 
     private static String encodeMessage(String message, String key) {
         StringBuilder encodedMessage = new StringBuilder();

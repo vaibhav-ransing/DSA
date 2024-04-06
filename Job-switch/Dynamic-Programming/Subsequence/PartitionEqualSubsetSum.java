@@ -34,6 +34,27 @@ public class PartitionEqualSubsetSum {
         return dp[m - 1][n - 1];
     }
 
+    public static int tabulation1(int target, int[] arr) {
+        int dp[][] = new int[arr.length + 1][target + 1];
+        int m = dp.length;
+        int n = dp[0].length;
+
+        dp[0][0] = 1;
+
+        for (int row = 1; row < m; row++) {
+            for (int col = 0; col < n; col++) {
+                int arrVal = arr[row - 1];
+                int dontTake = dp[row - 1][col];
+                int take = 0;
+                if (col - arrVal >= 0) {
+                    take = dp[row - 1][col - arrVal];
+                }
+                dp[row][col] = take + dontTake;
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+
     
 
     // public static boolean recursion(int[] arr, int idx, int v1, int v2) {
