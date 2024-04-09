@@ -5,8 +5,8 @@ import javalang
 from pathlib import Path
 import re
 
+api_key = ''
 
-api_key = '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'
 client = OpenAI(api_key=api_key)
 
 def get_java_files(src_location):
@@ -123,6 +123,9 @@ def extract_code(completion_content):
 
 print("Unit Test Case Generation Started \n")
 
+# response = client.chat.start(messages=[{"role": "system"}])
+# chat_id = response.data["id"]
+
 for class_name, class_info in logic_classes_dict.items():
     code = class_info['code']
     src_location = class_info['src_location']
@@ -132,21 +135,22 @@ for class_name, class_info in logic_classes_dict.items():
         model="gpt-3.5-turbo",
         messages=[
             {
-                "role": "user", "content": f"Generate unit test case code for \n `{code}`, \n here are all the model classes \n `{model_classes_string}` \n note: It's maven project for java 17\n  "
-             }
+                "role": "user", "content": f"Generate karate test case code for \n `{code}`, \n here are all the model classes \n `{model_classes_string}` \n note: It's maven project for java 17\n  "
+            }
         ]
     )
     
     # Retrieve the completion content using methods provided by the library
     completion_content = completion.choices[0].message.content
+    print(completion_content)
     generated_test_cases = extract_code(completion_content)
     # generated_test_cases = completion_content
 
     # generated_test_cases = completion_content
 
     # Assuming test folder is a sibling to the src folder
-    test_file_path = src_location.replace('main', 'test')
-    test_file_path = os.path.join(test_file_path, f"{class_name}Test.java")
+    test_file_path = src_location.replace('main', 'test/resources')
+    test_file_path = os.path.join(test_file_path, f"{class_name}Test.feature")
 
     # Create directories if they don't exist
     os.makedirs(os.path.dirname(test_file_path), exist_ok=True)
