@@ -45,7 +45,7 @@ public class DistinctSubsequences {
         Arrays.stream(dp).forEach(row -> row[0] = 1);
         for (int pi = 1; pi < dp.length; pi++) {
             for (int cj = 1; cj < dp[0].length; cj++) {
-                int skip = dp[cj];
+                int skip = dp[pi - 1][cj];
                 int take = 0;
                 if (parent.charAt(pi - 1) == child.charAt(cj - 1)) {
                     take = dp[pi - 1][cj - 1];
@@ -58,7 +58,8 @@ public class DistinctSubsequences {
         return dp[dp.length - 1][dp[0].length - 1];
     }
 
-    public static int tabulation1D(String parent, String child) {
+    public static int tabulationSpacOp(String parent, String child) {
+
         int cidx = child.length();
         int prev[] = new int[cidx + 1];
         prev[0] = 1;
@@ -73,9 +74,29 @@ public class DistinctSubsequences {
                 if (parent.charAt(pi - 1) == child.charAt(cj - 1)) {
                     take = prev[cj - 1];
                 }
-                curr[cj] = skip + take;
+                curr[cj] = (skip + take) % 1000000007;
             }
             prev = curr;
+        }
+
+        return prev[prev.length - 1];
+    }
+
+    public static int tabulation1D(String parent, String child) {
+        int cidx = child.length();
+        int prev[] = new int[cidx + 1];
+        prev[0] = 1;
+
+        for (int pi = 1; pi <= parent.length(); pi++) {
+
+            for (int cj = child.length(); cj >= 1; cj--) {
+                int skip = prev[cj];
+                int take = 0;
+                if (parent.charAt(pi - 1) == child.charAt(cj - 1)) {
+                    take = prev[cj - 1];
+                }
+                prev[cj] = (skip + take) % 1000000007;
+            }
         }
 
         return prev[prev.length - 1];
