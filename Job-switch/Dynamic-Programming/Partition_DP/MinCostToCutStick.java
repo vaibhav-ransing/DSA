@@ -12,14 +12,30 @@ public class MinCostToCutStick {
         list.add(0);
         list.add(n);
         Collections.sort(list);
-        System.out.println(list);
 
-        return 0;
+        int dp[][] = new int[list.size()][list.size()];
+        Arrays.stream(dp).forEach(row -> Arrays.fill(row, -1));
+        int ans = cutsRec(1, list.size() - 2, list, dp);
+        return ans;
     }
 
-    public static int cutsRec(int i, int j, ArrayList<Integer> list) {
-        
-        return 0;
+    public static int cutsRec(int i, int j, ArrayList<Integer> list, int dp[][]) {
+        if (i > j)
+            return 0;
+        System.out.println(i + " " + j + " " + list.size());
+        if (dp[i][j] != -1)
+            return dp[i][j];
+        int ans = Integer.MAX_VALUE;
+
+        // idx is running on cuts
+        for (int idx = i; idx <= j; idx++) {
+            int cost = list.get(j + 1) - list.get(i - 1);
+            int left = cutsRec(i, idx - 1, list, dp);
+            int right = cutsRec(idx + 1, j, list, dp);
+
+            ans = Math.min(ans, cost + left + right);
+        }
+        return dp[i][j] = ans;
     }
 
     // running index on n
@@ -41,10 +57,10 @@ public class MinCostToCutStick {
     }
 
     public static void main(String[] args) {
-        // int arr[] = { 5, 6, 1, 4, 2 };
-        // int n = 9;
-        int arr[] = { 1, 3, 4, 5 };
-        int n = 7;
+        int arr[] = { 5, 6, 1, 4, 2 };
+        int n = 9;
+        // int arr[] = { 1, 3, 4, 5 };
+        // int n = 7;
         System.out.println(minCost(n, arr));
     }
 }
