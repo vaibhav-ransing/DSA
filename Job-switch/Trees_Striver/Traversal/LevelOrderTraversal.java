@@ -1,4 +1,4 @@
-package Codes;
+package Traversal;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class LevelOrderTraversal {
                     currQueue.add(node.left);
                 if (node.right != null)
                     currQueue.add(node.right);
-                tempAns.add(node.val);
+                tempAns.add(node.data);
             }
             ans.add(tempAns);
             while (currQueue.size() > 0) {

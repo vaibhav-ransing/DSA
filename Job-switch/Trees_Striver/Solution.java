@@ -1,43 +1,61 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
-
-
-
+import java.util.*;
 
 public class Solution {
-    public List<Integer> predOrderTraversal(TreeNode root) {
-        List<Integer> ans = new ArrayList<>();
-        if(root == null) return ans;
 
-        Stack<TreeNode> stack = new Stack<>();
-        stack.push(root);
-
-        while (stack.size() > 0) {
-            root = stack.pop();
-            ans.add(root.val);
-            if(root.right != null) stack.push(root.right);
-            if(root.left != null) stack.push(root.left);
+    public static List<Integer> traverseBoundary(TreeNode root) {
+        List<Integer> boundary = new ArrayList<>();
+        if (root != null) {
+            boundary.add(root.data);
+            leftBoundary(root.left, boundary);
+            leafNodes(root, boundary);
+            rightBoundary(root.right, boundary);
         }
-        return ans;
+        return boundary;
     }
+    private static void leftBoundary(TreeNode node, List<Integer> boundary) {
+        if (node != null) { // handles the null case
+            if (node.left != null || node.right != null) { // makes sure not a leaf node
+                boundary.add(node.data);
+                if (node.left != null) {
+                    leftBoundary(node.left, boundary);
+                } else {
+                    leftBoundary(node.right, boundary);
+                }
+            }
+        }
+    }
+    private static void rightBoundary(TreeNode node, List<Integer> boundary) {
+        if (node != null) {
+            if (node.left != null || node.right != null) {
+                if (node.right != null) {
+                    rightBoundary(node.right, boundary);
+                } else {
+                    rightBoundary(node.left, boundary);
+                }
+                boundary.add(node.data);
+            }
+        }
+    }
+    private static void leafNodes(TreeNode node, List<Integer> boundary) {
+        if (node != null) {
+            leafNodes(node.left, boundary);
+            if (node.left == null && node.right == null) {
+                boundary.add(node.data);
+            }
+            leafNodes(node.right, boundary);
+        }
+    }
+
 }
 
 class TreeNode {
-    int val;
+    int data;
     TreeNode left;
     TreeNode right;
 
-    TreeNode() {
-    }
-
-    TreeNode(int val) {
-        this.val = val;
-    }
-
-    TreeNode(int val, TreeNode left, TreeNode right) {
-        this.val = val;
-        this.left = left;
-        this.right = right;
+    TreeNode(int data) {
+        this.data = data;
+        this.left = null;
+        this.right = null;
     }
 }

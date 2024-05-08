@@ -1,4 +1,4 @@
-package Codes;
+package Traversal;
 
 import java.util.ArrayList;
 import java.util.List;

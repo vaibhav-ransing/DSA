@@ -1,4 +1,4 @@
-package Codes;
+package Traversal;
 
 public class TreeNode {
     int val;

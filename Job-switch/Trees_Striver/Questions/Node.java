@@ -1,4 +1,4 @@
-package Codes;
+package Questions;
 
 public class Node{
 
