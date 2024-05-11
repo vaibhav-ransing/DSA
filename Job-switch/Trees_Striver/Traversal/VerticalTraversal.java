@@ -16,7 +16,7 @@ public class VerticalTraversal {
         }
 
         public int compareTo(Pair o) {
-            if (this.col == o.col && this.row == o.col) {
+            if (this.col == o.col && this.row == o.row) {
                 return this.val - o.val;
             } else if (this.col == o.col) {
                 return this.row - o.row;
@@ -37,9 +37,12 @@ public class VerticalTraversal {
         for (int key : map.keySet()) {
             List<Integer> temp = new ArrayList<>();
             while (map.get(key).size() > 0) {
+                System.out.print(map.get(key).peek().val + "("+map.get(key).peek().row + map.get(key).peek().col +") ");
                 temp.add(map.get(key).remove().val);
             }
             ans.add(temp);
+            System.out.println();
+            System.out.println("----------");
         }
 
         return ans;

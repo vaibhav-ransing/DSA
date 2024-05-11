@@ -1,61 +1,81 @@
-import java.util.*;
+import java.util.* ;
+import java.io.*;
 
-public class Solution {
+public class Solution 
+{
+    public static ArrayList<Integer> verticalOrderTraversal(TreeNode<Integer> root) 
+    {
+        //    Write your code here.
+        ArrayList<Integer> ans = new ArrayList<>();
+        if (root == null)
+            return ans;
 
-    public static List<Integer> traverseBoundary(TreeNode root) {
-        List<Integer> boundary = new ArrayList<>();
-        if (root != null) {
-            boundary.add(root.data);
-            leftBoundary(root.left, boundary);
-            leafNodes(root, boundary);
-            rightBoundary(root.right, boundary);
+        TreeMap<Integer, PriorityQueue<Pair>> map = new TreeMap<>();
+        fillHashMap(root, 0, 0, map);
+
+        for (int key : map.keySet()) {
+            while (map.get(key).size() > 0) {
+                ans.add(map.get(key).remove().val);
+            }
         }
-        return boundary;
+
+        return ans;
     }
-    private static void leftBoundary(TreeNode node, List<Integer> boundary) {
-        if (node != null) { // handles the null case
-            if (node.left != null || node.right != null) { // makes sure not a leaf node
-                boundary.add(node.data);
-                if (node.left != null) {
-                    leftBoundary(node.left, boundary);
-                } else {
-                    leftBoundary(node.right, boundary);
-                }
+
+    static class Pair implements Comparable<Pair> {
+        int col;
+        int row;
+        int val;
+
+        Pair(int col, int row, int val) {
+            this.col = col;
+            this.row = row;
+            this.val = val;
+        }
+
+        public int compareTo(Pair o) {
+            if (this.col == o.col && this.row == o.row) {
+                return this.val - o.val;
+            } else if (this.col == o.col) {
+                return this.row - o.row;
+            } else {
+                return this.col - o.col;
             }
         }
     }
-    private static void rightBoundary(TreeNode node, List<Integer> boundary) {
-        if (node != null) {
-            if (node.left != null || node.right != null) {
-                if (node.right != null) {
-                    rightBoundary(node.right, boundary);
-                } else {
-                    rightBoundary(node.left, boundary);
-                }
-                boundary.add(node.data);
-            }
-        }
-    }
-    private static void leafNodes(TreeNode node, List<Integer> boundary) {
-        if (node != null) {
-            leafNodes(node.left, boundary);
-            if (node.left == null && node.right == null) {
-                boundary.add(node.data);
-            }
-            leafNodes(node.right, boundary);
-        }
-    }
 
+
+    public static void fillHashMap(TreeNode<Integer> node, int col, int row, TreeMap<Integer, PriorityQueue<Pair>> map) {
+
+        if (node == null)
+            return;
+
+        if (map.containsKey(col)) {
+            PriorityQueue<Pair> pq = map.get(col);
+            pq.add(new Pair(col, row, node.data));
+
+        } else {
+            PriorityQueue<Pair> pq = new PriorityQueue<>();
+            pq.add(new Pair(col, row, node.data));
+            map.put(col, pq);
+        }
+
+        fillHashMap(node.left, col - 1, row + 1, map);
+        fillHashMap(node.right, col + 1, row + 1, map);
+    }
 }
 
-class TreeNode {
-    int data;
-    TreeNode left;
-    TreeNode right;
 
-    TreeNode(int data) {
+class TreeNode<T> 
+{
+    T data;
+    TreeNode<T> left;
+    TreeNode<T> right;
+
+    TreeNode(T data) 
+    {
         this.data = data;
-        this.left = null;
-        this.right = null;
+        left = null;
+        right = null;
     }
-}
+};

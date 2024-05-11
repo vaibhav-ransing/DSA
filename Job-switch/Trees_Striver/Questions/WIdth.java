@@ -1,39 +1,44 @@
 package Questions;
-
-import java.util.ArrayDeque;
+import java.util.*;
 
 public class WIdth {
 
-    public int diameterOfBinaryTree(TreeNode root) {
+    public int widthOfBinaryTree(TreeNode root) {
 
         if (root == null)
             return 0;
-        ArrayDeque<TreeNode> queue = new ArrayDeque<>();
-        queue.add(root);
-        int ans = 1;
+        ArrayDeque<Pair> queue = new ArrayDeque<>();
+        queue.add(new Pair(root, 1));
 
+        int maxWith = 1;
         while (queue.size() > 0) {
+            int n = queue.size();
+            int leftIndexOfStart = queue.peek().index;
 
-            int n = queue.size(); // we must declare n and then use it in loop
-            int temp = 0;
-            for (int i = 0; i < n; i++) { // if we do i<queue.size here then when we append it will run extra loops
-                root = queue.remove();
+            for (int i = 0; i < n; i++) {
 
-                if ((root.left == null || root.right == null) && (i == n - 1)) {
-                    temp += root.right == null ? 1 : 2;
-                } else {
-                    temp += 2;
-                }
+                Pair peek = queue.remove();
+                TreeNode currNode = peek.node;
+                int currIndex = peek.index;
 
-                if (root.left != null)
-                    queue.add(root.left);
-                if (root.right != null)
-                    queue.add(root.right);
+                if (currNode.left != null)
+                    queue.add(new Pair(currNode.left, 2 * currIndex));
+
+                if (currNode.right != null)
+                    queue.add(new Pair(currNode.right, 2 * currIndex + 1));
+
+                maxWith = Math.max(maxWith, currIndex - leftIndexOfStart + 1);
             }
-            System.out.println(temp);
-            ans = Math.max(ans, temp);
         }
+        return maxWith;
+    }
+}
 
-        return ans;
+class Pair {
+    TreeNode node;
+    int index;
+    Pair(TreeNode node, int index) {
+        this.node = node;
+        this.index = index;
     }
 }
