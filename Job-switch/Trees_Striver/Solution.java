@@ -1,81 +1,63 @@
-import java.util.* ;
-import java.io.*;
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int max = 0;
 
-public class Solution 
-{
-    public static ArrayList<Integer> verticalOrderTraversal(TreeNode<Integer> root) 
-    {
-        //    Write your code here.
-        ArrayList<Integer> ans = new ArrayList<>();
-        if (root == null)
-            return ans;
-
-        TreeMap<Integer, PriorityQueue<Pair>> map = new TreeMap<>();
-        fillHashMap(root, 0, 0, map);
-
-        for (int key : map.keySet()) {
-            while (map.get(key).size() > 0) {
-                ans.add(map.get(key).remove().val);
-            }
-        }
-
-        return ans;
+    public int amountOfTime(TreeNode root, int start) {
+        DFS(root, start);
+        return max;
     }
 
-    static class Pair implements Comparable<Pair> {
-        int col;
-        int row;
-        int val;
-
-        Pair(int col, int row, int val) {
-            this.col = col;
-            this.row = row;
-            this.val = val;
-        }
-
-        public int compareTo(Pair o) {
-            if (this.col == o.col && this.row == o.row) {
-                return this.val - o.val;
-            } else if (this.col == o.col) {
-                return this.row - o.row;
-            } else {
-                return this.col - o.col;
-            }
-        }
-    }
-
-
-    public static void fillHashMap(TreeNode<Integer> node, int col, int row, TreeMap<Integer, PriorityQueue<Pair>> map) {
+    public int DFS(TreeNode node, int start) {
 
         if (node == null)
-            return;
+            return 0;
+        if (node.val == start) {
+            System.out.println("node_started "+ node.val);
 
-        if (map.containsKey(col)) {
-            PriorityQueue<Pair> pq = map.get(col);
-            pq.add(new Pair(col, row, node.data));
+            int leftOfStart = DFS(node.left, start);
+            int rightOfStart = DFS(node.right, start);
 
-        } else {
-            PriorityQueue<Pair> pq = new PriorityQueue<>();
-            pq.add(new Pair(col, row, node.data));
-            map.put(col, pq);
+            max = Math.max(max, Math.max(leftOfStart, rightOfStart));
+
+            System.out.println( "node= "+ node.val +", leftOfStart= "+ leftOfStart +", rightOfStart=" + rightOfStart +" max="+ max);
+
+            return -1;
         }
+        int left = DFS(node.left, start);
+        int right = DFS(node.right, start);
 
-        fillHashMap(node.left, col - 1, row + 1, map);
-        fillHashMap(node.right, col + 1, row + 1, map);
+        if (left < 0 || right < 0) {
+            int lenBtwLeftRight = Math.abs(left) + Math.abs(right);
+            left = left < 0 ? -left -1 : left;
+            right = right < 0 ? -right-1 : right;
+            max = Math.max(max, lenBtwLeftRight);
+            System.out.println( "node= "+ node.val +", left= "+ left +", right=" + right +" max="+ max);
+            return 1;
+        }
+        int lenBtwLeftRight = Math.abs(left) + Math.abs(right);
+        max = Math.max(max, lenBtwLeftRight);
+        max = Math.max(max, 1 + Math.max(left, right));
+        System.out.println( "node= "+ node.val +", left= "+ left +", right=" + right +" max="+ max);
+        return 1 + Math.max(left, right);
     }
+    // node_started 4
+    // node= 1, left= 0, right=0 max=1
+    // node= 4, leftOfStart= 1, rightOfStart=0 max=1
+    // node= 2, left= -1, right=0 max=1
+    // node= 3, left= 0, right=0 max=1
+    // node= 5, left= 1, right=1 max=2
 }
-
-
-class TreeNode<T> 
-{
-    T data;
-    TreeNode<T> left;
-    TreeNode<T> right;
-
-    TreeNode(T data) 
-    {
-        this.data = data;
-        left = null;
-        right = null;
-    }
-};
