@@ -1,27 +1,47 @@
+import java.util.*;
 
-public class Solution {
+class Solution {
+    Stack<TreeNode> leftStack;
+    Stack<TreeNode> rightStack;
 
-    public static int floorInBST(TreeNode<Integer> root, int x) {
-        //    Write your code here.
-        int ans = floorHelper(node, x);
-        // Write your code here
-        return ans == Integer.MIN_VALUE ? -1 : ans;
-    }
-
-    public static int floorHelper(TreeNode<Integer> node, int x) {
-        if (node == null)
-            return Integer.MIN_VALUE;
-        // x=7 ans=6
-        int val;
-        if (x < node.data) {
-            val = floorHelper(node.left, x);
-        } else {
-            val = floorHelper(node.right, x);
+    public boolean findTarget(TreeNode root, int k) {
+        leftStack = new Stack<>();
+        rightStack = new Stack<>();
+        
+        TreeNode node = root;
+        while (node != null) {
+            leftStack.push(node);
+            node = node.left;
         }
-        int curr = node.data <= x ? node.data : Integer.MIN_VALUE;
-        if (curr != Integer.MIN_VALUE && val != Integer.MIN_VALUE) {
-            return Math.min(curr, val);
+        node = root;
+        while (node != null) {
+            rightStack.push(node);
+            node = node.right;
         }
-        return Math.max(curr, val);
+
+        while (!leftStack.isEmpty() && !rightStack.isEmpty() && leftStack.peek() != rightStack.peek()) {
+            int leftValue = leftStack.peek().val;
+            int rightValue = rightStack.peek().val;
+            int sum = leftValue + rightValue;
+            System.out.println(leftValue + " " + rightValue + " " + sum);
+            
+            if (sum == k) {
+                return true;
+            } else if (sum < k) {
+                TreeNode temp = leftStack.pop().right;
+                while (temp != null) {
+                    leftStack.push(temp);
+                    temp = temp.left;
+                }
+            } else {
+                TreeNode temp = rightStack.pop().left;
+                while (temp != null) {
+                    rightStack.push(temp);
+                    temp = temp.right;
+                }
+            }
+        }
+
+        return false;
     }
 }
