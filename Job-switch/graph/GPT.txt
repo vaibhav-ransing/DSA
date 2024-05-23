@@ -1,0 +1,86 @@
+import javalang
+
+# Sample Java code
+java_code = """
+public class Example {
+    public void hello() {
+        System.out.println("Hello, world!");
+    }
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+}
+"""
+
+# Parse the Java code
+tree = javalang.parse.parse(java_code)
+
+# Function to extract method bodies
+def extract_method_bodies(tree):
+    method_bodies = {}
+    
+    for _, node in tree.filter(javalang.tree.MethodDeclaration):
+        method_name = node.name
+        if node.body:
+            method_body = java_code[node.body.position.line - 1:node.body[-1].position.end_line]
+            method_bodies[method_name] = method_body
+    
+    return method_bodies
+
+# Extract method bodies
+method_bodies = extract_method_bodies(tree)
+
+# Print the extracted method bodies
+for method, body in method_bodies.items():
+    print(f"Method: {method}\nBody:\n{body}\n")
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+import javalang
+
+# Sample Java code
+java_code = """
+import java.util.List;
+import java.util.ArrayList;
+
+public class Example {
+    public void hello() {
+        System.out.println("Hello, world!");
+    }
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+}
+"""
+
+# Parse the Java code
+tree = javalang.parse.parse(java_code)
+
+# Function to extract class names
+def extract_class_name(tree):
+    class_names = []
+    for _, node in tree.filter(javalang.tree.ClassDeclaration):
+        class_names.append(node.name)
+    return class_names
+
+# Function to extract import statements
+def extract_imports(tree):
+    imports = []
+    for _, node in tree.filter(javalang.tree.Import):
+        imports.append(node.path)
+    return imports
+
+# Extract class names and import statements
+class_names = extract_class_name(tree)
+imports = extract_imports(tree)
+
+# Print the extracted class names and import statements
+print("Class Names:")
+for class_name in class_names:
+    print(class_name)
+
+print("\nImport Statements:")
+for import_stmt in imports:
+    print(import_stmt)
