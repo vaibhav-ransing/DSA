@@ -1,3 +1,4 @@
+package Questions;
 import java.util.*;
 import java.util.stream.IntStream;
 

@@ -1,3 +1,4 @@
+package Questions;
 import java.util.ArrayDeque;
 
 public class distanceOfNearseCellHaving1 {

@@ -1,3 +1,4 @@
+package Questions;
 public class MostStonesRemovedSameRowCol {
 
     public int removeStones(int[][] stones) {

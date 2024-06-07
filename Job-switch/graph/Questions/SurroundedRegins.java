@@ -1,3 +1,4 @@
+package Questions;
 public class SurroundedRegins {
 
     boolean[][] visisted;

@@ -1,3 +1,4 @@
+package Questions;
 import java.util.stream.IntStream;
 
 public class NumberOfIsland2 {

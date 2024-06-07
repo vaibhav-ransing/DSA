@@ -1,33 +1,26 @@
-import java.util.Arrays;
+import java.util.HashSet;
 
-public class Solution {
-    public static int minimumRateToEatBananas(int []arr, int h) {
-        if (h < arr.length)
-            return -1;
+class Solution {
+    public int maxChunksToSorted(int[] arr) {
+        int[] rmin = new int[arr.length];
+        rmin[arr.length-1] = arr[arr.length-1];
+        for(int i=arr.length-2; i>=0; i--){
+            rmin[i] = Math.min(arr[i], rmin[i+1]);
+        }   
+        // HashSet<Integer> set = new HashSet<>();
+        // for(int va : rmin){
+        //     set.add(va);
+        // }
+        // return set.size();
+        int count=1;
+        int max = -1;
 
-        long high = Arrays.stream(arr).max().orElse(Integer.MIN_VALUE);
-        long low = 1;
-        
-        while (low <= high) {
-            long mid = low + (high - low) / 2; // mid is speed at which bana is eaten
-            if (canEat(arr, mid, h)) {
-                high = mid - 1;
-            } else {
-                low = mid + 1;
-            }
+        for(int i=0; i<arr.length-1; i++){
+            max = Math.max(max, arr[i]);
+            int rminVal = rmin[i+1];
+            if(rminVal >= max)
+                count++;
         }
-        return (int) low;
-        // Write Your Code Here
-    }
-
-    public static boolean canEat(int[] arr, long speed, long hour) {
-        long reqHrs = 0;
-        for (long val : arr) {
-            reqHrs += Math.ceilDiv(val, speed);
-        }
-        return reqHrs <= hour;
+        return count;
     }
 }
-
-
-

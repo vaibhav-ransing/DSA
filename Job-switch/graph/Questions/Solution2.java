@@ -1,3 +1,4 @@
+package Questions;
 import java.io.*;
 
 import java.util.*;
@@ -31,7 +32,8 @@ public class Solution {
         }
         System.out.println();
     }
-    public static void dfsGPT(int src, int parent, ArrayList<ArrayList<Integer>> graph) {
+
+    public static void dfs(int src, int parent, ArrayList<ArrayList<Integer>> graph) {
         visited[src] = true;
         discovered[src] = low[src] = ++time;
         int children = 0;
@@ -39,7 +41,7 @@ public class Solution {
         for (int nbr : graph.get(src)) {
             if (!visited[nbr]) {
                 children++;
-                dfsGPT(nbr, src, graph);
+                dfs(nbr, src, graph);
                 low[src] = Math.min(low[src], low[nbr]);
 
                 if (parent != -1 && low[nbr] >= discovered[src]) {
@@ -52,42 +54,6 @@ public class Solution {
                 low[src] = Math.min(low[src], discovered[nbr]);
             }
         }
-
-        if (parent == -1 && children > 1) {
-            if (!set.contains(src)) {
-                set.add(src);
-                ans.add(src);
-            }
-        }
-    }
-
-
-    public static int dfs(int src, int parent, ArrayList<ArrayList<Integer>> graph) {
-
-        time++;
-        discovered[src] = time;
-        low[src] = time;
-        visited[src] = true;
-
-        for (int nbr : graph.get(src)) {
-            if (visited[nbr] == false) {
-                int l = dfs(nbr, src, graph);
-                low[src] = Math.min(low[src], l); // l = low[nbr]
-            } else { // aready visisted then check if not parent then get the discovery
-                if (nbr != parent) {
-                    low[src] = Math.min(low[src], discovered[nbr]);
-                }
-            }
-
-            if (low[nbr] >= discovered[src] || (parent == -1 && graph.get(src).size() > 1)) {
-                if(set.contains(src) == false){
-                    set.add(src);
-                    ans.add(src);
-                }
-            }
-        }
-        return low[src];
-    }
 
     public static void main(String[] args) throws NumberFormatException, IOException {
 
