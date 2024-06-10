@@ -10,9 +10,6 @@ public class ShortestPathDAG {
     public int[] shortestPath(int n, int m, int[][] edges) {
         ArrayList<ArrayList<int[]>> graph = new ArrayList<>();
         IntStream.range(0, n).forEach(i -> graph.add(new ArrayList<>()));
-        // for(int i=0; i<n; i++){
-        // graph.add(new ArrayList<>());
-        // }
         for (int[] edge : edges) {
             graph.get(edge[0]).add(new int[] { edge[1], edge[2] });
         }
