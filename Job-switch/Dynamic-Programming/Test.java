@@ -11,45 +11,53 @@ public class Test {
         int n = map.size();
         int disc[] = new int[n];
         int occ[] = new int[n];
+
         int idx = 0;
         for (int val : map.keySet()) {
             disc[idx] = val;
             occ[idx++] = map.get(val);
         }
-        System.out.println(Arrays.toString(disc));
-        System.out.println(Arrays.toString(occ));
-        int dp[] = new int[n];
+
+        long dp[] = new long[n];
         Arrays.fill(dp, -1);
-        helper(0, disc, occ, 0, dp);
-        System.out.println(Arrays.stream(dp).max().orElse(0));
+
+        // Use the helper function starting at index 0
+        long result = helper(0, disc, occ, dp);
+        System.out.println(result);
     }
 
-    public static int helper(int idx, int[] disc, int[] occ, int sum, int[] dp) {
+    public static long helper(int idx, int[] disc, int[] occ, long[] dp) {
         if (idx >= disc.length) {
-            return sum;
+            return 0;
         }
-        if (dp[idx] != -1)
+        if (dp[idx] != -1) {
             return dp[idx];
-        int skip = helper(idx + 1, disc, occ, sum, dp);
+        }
 
+        // Skip current element
+        long skip = helper(idx + 1, disc, occ, dp);
+
+        // Find the next non-consecutive element
         int j = idx + 1;
-        while (j < disc.length && disc[j] <= disc[idx] + 1) {
+        while (j < disc.length && disc[j] == disc[idx] + 1) {
             j++;
         }
-        System.out.println(disc[idx] + " | idx= " + idx + " | j= " + j + " | sum= " + sum);
-        int take = helper(j, disc, occ, sum + (disc[idx] * occ[idx]), dp);
 
-        return dp[idx] = Math.max(take, skip);
+        // Take current element and add its value
+        long take = (disc[idx] * (long) occ[idx]) + helper(j, disc, occ, dp);
+
+        // Store the maximum result in dp array
+        dp[idx] = Math.max(take, skip);
+        return dp[idx];
     }
 
     public static void main(String[] args) {
-        // Scanner scn = new Scanner(System.in);
-        // int n = scn.nextInt();
-        // int[] arr = new int[n];
-        // for (int i = 0; i < n; i++) {
-        // arr[i] = scn.nextInt();
-        // }
-        // deleteAndEarn(arr);
-        deleteAndEarn(new int[] { 1, 2, 3 });
+        Scanner scn = new Scanner(System.in);
+        int n = scn.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = scn.nextInt();
+        }
+        deleteAndEarn(arr);
     }
 }

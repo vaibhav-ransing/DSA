@@ -18,23 +18,31 @@ public class DeleteAndEarn {
             disc[idx] = val;
             occ[idx++] = map.get(val);
         }
-        int dp[] = new int[n];
+        long dp[] = new long[n];
         Arrays.fill(dp, -1);
-        return helper(0, disc, occ, 0, dp);
+        helper(0, disc, occ, dp);
+
+        return (int) Arrays.stream(dp).max().orElse(0);
     }
 
-    public int helper(int idx, int[] disc, int[] occ, int sum, int[] dp) {
-        if (idx >= disc.length) {
-            return sum;
-        }
+    public long helper(int idx, int[] disc, int[] occ, long[] dp) {
+        if (idx >= disc.length)
+            return 0;
+
         if (dp[idx] != -1)
             return dp[idx];
-        int skip = helper(idx + 1, disc, occ, sum, dp);
+
+        // Skip current element
+        long skip = helper(idx + 1, disc, occ, dp);
+
+        // Find the next non-consecutive element
         int j = idx + 1;
-        while (j < disc.length && (disc[j] <= disc[idx] + 1)) {
+        while (j < disc.length && disc[j] == disc[idx] + 1) {
             j++;
         }
-        int take = helper(j, disc, occ, sum + (disc[idx] * occ[idx]), dp);
+        // Take current element and add its value
+        long take = (disc[idx] * (long) occ[idx]) + helper(j, disc, occ, dp);
+
         return dp[idx] = Math.max(take, skip);
     }
 }
