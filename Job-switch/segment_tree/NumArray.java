@@ -7,7 +7,7 @@ public class NumArray {
 
         int n = arr.length;
         seg = new int[2 * n - 1];
-
+        this.arr = arr;
         int[] prefixSum = new int[n];
         prefixSum[0] = arr[0];
         for (int i = 1; i < n; i++) {
@@ -46,17 +46,46 @@ public class NumArray {
         }
     }
 
-    public int sumRange(int left, int right) {
+    // public int sumRange(int left, int right) {
+    //     return sumRangeHelper(left, right, 0, arr.length - 1, 0);
+    // }
 
+    // public int sumRangeHelper(int left, int right, int low, int high, int idx) {
+    //     if (low > high)
+    //         return 0;
+    //     if (left <= low && high <= right) {
+    //         return seg[idx];
+    //     }
+
+    //     int sum = 0;
+    //     int mid = (low + high) >> 1;
+
+    //     if (left > mid) {
+    //         // right
+    //         sum += sumRangeHelper(left, right, mid + 1, high, 2 * idx + 2);
+    //     } else if (mid > right) {
+    //         // go left
+    //         sum += sumRangeHelper(left, right, low, mid, 2 * idx + 1);
+    //     } else {
+    //         sum += sumRangeHelper(left, right, mid + 1, high, 2 * idx + 2)
+    //                 + sumRangeHelper(left, right, low, mid, 2 * idx + 1);
+    //     }
+    //     return sum;
+    // }
+
+    public int sumRange(int left, int right) {
+        int n = arr.length;
+        return getSumRange(0, left, right, 0, n-1);
     }
 
-    public int sumRangeHelper(int left, int right, int low, int high, int idx) {
-        if (low > high)
+    private int getSumRange(int idx, int left, int right, int treeStart, int treeEnd) {
+        if(left>treeEnd || right<treeStart) {
             return 0;
-
-        int sum = 0;
-        int mid = (low + high) >> 1;
-        
-
+        } else if(left<=treeStart && right>=treeEnd) {
+            return seg[idx];
+        } else {
+            int mid = treeStart + (treeEnd - treeStart)/2;
+            return getSumRange(2*idx+1, left, right, treeStart, mid) + getSumRange(2*idx+2, left, right, mid+1, treeEnd);
+        }
     }
 }
