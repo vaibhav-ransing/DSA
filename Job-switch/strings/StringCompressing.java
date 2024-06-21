@@ -24,25 +24,25 @@ public class StringCompressing {
     class Solution {
         public int compress(char[] chars) {
             int n = chars.length;
-            if (n == 0) return 0;
-    
-            int i = 0;  // Position in the compressed array
-            int j = 0;  // Position in the original array
-    
+            if (n == 0)
+                return 0;
+
+            int i = 0; // Position in the compressed array
+            int j = 0; // Position in the original array
+
             while (j < n) {
                 char currentChar = chars[j];
                 int count = 0;
-    
+
                 // Count the occurrences of the current character
                 while (j < n && chars[j] == currentChar) {
                     j++;
                     count++;
                 }
-                
-    
+
                 // Update the character in the compressed array
                 chars[i++] = currentChar;
-    
+
                 // If the count is greater than 1, append the count to the compressed array
                 if (count > 1) {
                     String countStr = Integer.toString(count);
@@ -51,7 +51,7 @@ public class StringCompressing {
                     }
                 }
             }
-    
+
             return i;
         }
     }
