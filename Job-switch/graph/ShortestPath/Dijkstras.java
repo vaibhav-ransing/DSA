@@ -22,7 +22,8 @@ public class Dijkstras {
             for (ArrayList<Integer> edge : adj.get(node)) {
                 int adjNode = edge.get(0);
                 int edgeWeight = edge.get(1);
-
+                
+                // No need to keep a visited, if the new wt is more than existing wt then it wont push to pq.
                 int newWeight = edgeWeight + dis;
                 if (newWeight < dist[adjNode]) {
                     dist[adjNode] = newWeight;

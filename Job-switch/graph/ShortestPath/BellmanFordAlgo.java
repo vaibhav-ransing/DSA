@@ -6,7 +6,6 @@ import java.util.Arrays;
 public class BellmanFordAlgo {
 
     static int[] bellman_ford(int n, ArrayList<ArrayList<Integer>> edges, int S) {
-        // Write your code here
 
         int[] dist = new int[n];
         Arrays.fill(dist, Integer.MAX_VALUE);
