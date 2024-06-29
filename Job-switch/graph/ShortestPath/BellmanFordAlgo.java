@@ -1,7 +1,5 @@
 package ShortestPath;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class BellmanFordAlgo {
 
@@ -12,7 +10,6 @@ public class BellmanFordAlgo {
         dist[S] = 0;
 
         for (int count = 1; count < n; count++) {
-
             int[] temp = Arrays.copyOf(dist, n);
             for (int i = 0; i < edges.size(); i++) {
                 ArrayList<Integer> edge = edges.get(i);
