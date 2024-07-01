@@ -1,3 +1,4 @@
+package Z_DailyLC;
 import java.util.*;
 
 public class MaxTotalInportanceRoad {
