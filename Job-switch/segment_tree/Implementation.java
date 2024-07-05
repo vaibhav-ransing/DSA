@@ -54,7 +54,5 @@ public class Implementation {
         System.out.println(Arrays.toString(seg));
         update(arr, 1, 4);
         System.out.println(Arrays.toString(seg));
-
     }
-
 }
