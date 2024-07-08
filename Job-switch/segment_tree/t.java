@@ -1,6 +1,5 @@
 public class t {
     public boolean predictTheWinner(int[] nums) {
-        // 1, 5, 233, 7
         int ans = rec(0, nums.length - 1, nums);
         return ans > 0;
     }
