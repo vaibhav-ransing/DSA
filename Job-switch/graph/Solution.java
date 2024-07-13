@@ -1,77 +1,23 @@
 import java.util.*;
 
-class Pair {
-    int first;
-    int second;
+public class Solution {
 
-    public Pair(int first, int second) {
-        this.first = first;
-        this.second = second;
-    }
-}
+    public String reverseParentheses(String s) {
 
-class Solution {
-
-    static int countPaths(int n, List<List<Integer>> roads) {
-
-        // Creating an adjacency list for the given graph.
-        ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            adj.add(new ArrayList<>());
-        }
-        int m = roads.size();
-        for (int i = 0; i < m; i++) {
-            adj.get(roads.get(i).get(0)).add(new Pair(roads.get(i).get(1), roads.get(i).get(2)));
-            adj.get(roads.get(i).get(1)).add(new Pair(roads.get(i).get(0), roads.get(i).get(2)));
-        }
-
-        // Defining a priority queue (min heap).
-        PriorityQueue<Pair> pq = new PriorityQueue<Pair>((x, y) -> x.first - y.first);
-
-        // Initializing the dist array and the ways array
-        // along with their first indices.
-        int[] dist = new int[n];
-        int[] ways = new int[n];
-        for (int i = 0; i < n; i++) {
-            dist[i] = Integer.MAX_VALUE;
-            ways[i] = 0;
-        }
-        dist[0] = 0;
-        ways[0] = 1;
-        pq.add(new Pair(0, 0));
-
-        // Define modulo value
-        int mod = (int) (1e9 + 7);
-
-        // Iterate through the graph with the help of priority queue
-        // just as we do in Dijkstra's Algorithm.
-        while (pq.size() != 0) {
-            int dis = pq.peek().first;
-            int node = pq.peek().second;
-            pq.remove();
-
-            for (Pair it : adj.get(node)) {
-                int adjNode = it.first;
-                int edW = it.second;
-
-                // This ‘if’ condition signifies that this is the first
-                // time we’re coming with this short distance, so we push
-                // in PQ and keep the no. of ways the same.
-                if (dis + edW < dist[adjNode]) {
-                    dist[adjNode] = dis + edW;
-                    pq.add(new Pair(dis + edW, adjNode));
-                    ways[adjNode] = ways[node];
-                }
-
-                // If we again encounter a node with the same short distance
-                // as before, we simply increment the no. of ways.
-                else if (dis + edW == dist[adjNode]) {
-                    ways[adjNode] = (ways[adjNode] + ways[node]) % mod;
-                }
+        Stack<String> stack = new Stack<>();
+        int prev = -1;
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (ch == '(') {
+                stack.push(s.substring(prev + 1, i));
+                prev = i + 1;
+            } else if (ch == ')') {
+                String curr = stack.peek() + s.substring(prev + 1, i);
+                String reverse = new StringBuilder(curr).reverse().toString();
+                stack.pop();
+                
             }
         }
-        // Finally, we return the no. of ways to reach
-        // (n-1)th node modulo 10^9+7.
-        return ways[n - 1] % mod;
     }
+
 }
