@@ -1,18 +1,32 @@
 package Questions;
 
+import java.util.Arrays;
+import java.util.HashMap;
+
 public class StringComp2 {
-    public int getLengthOfOptimalCompression(String s, int k) {
-        return rec(0, 0, 'A', s, k);
+
+    HashMap<String, Integer> map = new HashMap<>();
+
+    public int getLengthOfOptimalCompression(String str, int k) {
+        // char[] charArray = str.toCharArray();
+        // Arrays.sort(charArray);
+        // String s = new String(charArray);
+        // return rec(0, 0, 'A', s, k);
+        return rec(0, 0, 'A', str, k);
     }
 
+    // aabbaa
     public int rec(int idx, int prevCount, char prevChar, String str, int k) {
+
+        if (k < 0) {
+            return Integer.MAX_VALUE;
+        }
         if (idx == str.length()) {
             return 0;
         }
-        if (k == 0) {
-            return Integer.MAX_VALUE;
-        }
-
+        String cs = idx + "-" + prevCount + "-" + prevChar + "-" + k;
+        if (map.containsKey(cs))
+            return map.get(cs);
         char currCh = str.charAt(idx);
         int take = Integer.MAX_VALUE;
         int del = Integer.MAX_VALUE;
@@ -31,6 +45,7 @@ public class StringComp2 {
         // del
         del = rec(idx + 1, prevCount, prevChar, str, k - 1);
 
+        map.put(cs, Math.min(take, del));
         return Math.min(take, del);
     }
 }
