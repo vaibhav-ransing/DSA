@@ -1,5 +1,4 @@
 package Questions2;
-
 import java.util.*;
 
 public class DeleteNodeReturnForest {
@@ -7,19 +6,6 @@ public class DeleteNodeReturnForest {
         int val;
         TreeNode left;
         TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
     }
 
     HashSet<Integer> to_del = new HashSet<>();
@@ -30,7 +16,7 @@ public class DeleteNodeReturnForest {
             to_del.add(val);
         }
         TreeNode r = dfs(root);
-        if(r != null)
+        if (r != null)
             ans.add(r);
         return ans;
     }
@@ -41,8 +27,6 @@ public class DeleteNodeReturnForest {
 
         node.left = dfs(node.left);
         node.right = dfs(node.right);
-        System.out.println(node.val + " " + (node.left == null ? "null" : node.left.val)
-                + (node.right == null ? "null" : node.right.val));
 
         if (to_del.contains(node.val)) {
             if (node.left != null) {
