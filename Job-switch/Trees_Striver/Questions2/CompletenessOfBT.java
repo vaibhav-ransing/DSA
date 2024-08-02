@@ -1,6 +1,4 @@
-import java.util.ArrayDeque;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class CompletenessOfBT {
 
@@ -22,6 +20,31 @@ public class CompletenessOfBT {
             }
             return true;
         }
+
+        boolean ans;
+
+        public boolean isCompleteTreeDfs(TreeNode root) {
+            int totalNodes = count(root);
+            ans = true;
+            helper(root, 0, totalNodes);
+            return ans;
+        }
+
+        public void helper(TreeNode node, int index, int totalNodes) {
+            if (node == null)
+                return;
+            if (index >= totalNodes)
+                ans = false;
+            helper(node.left, 2 * index + 1, totalNodes);
+            helper(node.right, 2 * index + 2, totalNodes);
+        }
+
+        public int count(TreeNode node) {
+            if (node == null)
+                return 0;
+            return 1 + count(node.left) + count(node.right);
+        }
+
     }
 
     public boolean isCompleteTree(TreeNode root) {
