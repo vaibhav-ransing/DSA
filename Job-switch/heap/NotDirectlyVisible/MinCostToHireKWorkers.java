@@ -1,11 +1,5 @@
-
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.PriorityQueue;
+package NotDirectlyVisible;
+import java.util.*;
 
 public class MinCostToHireKWorkers {
     class Solution {
