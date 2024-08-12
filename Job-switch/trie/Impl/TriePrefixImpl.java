@@ -2,11 +2,10 @@ package Impl;
 
 public class TriePrefixImpl {
 
+    // public static int countDistinctSubstrings(String str){
+    // Trie trie = new Trie();
 
-    public static int countDistinctSubstrings(String str){
-        Trie trie = new Trie();
-        
-    }
+    // }
 
     class Trie {
         TrieNode root;
