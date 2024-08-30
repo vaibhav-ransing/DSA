@@ -11,7 +11,12 @@ public class DesinGraphWithSohortesPathCalc {
         public Graph(int n, int[][] edges) {
             this.n = n;
             mat = new int[n][n];
-            Arrays.stream(mat).forEach(row -> Arrays.fill(mat, Integer.MAX_VALUE));
+
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    mat[i][j] = Integer.MAX_VALUE / 2;
+                }
+            }
 
             for (int i = 0; i < n; i++) {
                 mat[i][i] = 0;
@@ -20,6 +25,10 @@ public class DesinGraphWithSohortesPathCalc {
                 mat[edge[0]][edge[1]] = edge[2];
             }
 
+            floyedWarshall();
+        }
+
+        void floyedWarshall() {
             for (int k = 0; k < n; k++) {
                 for (int i = 0; i < n; i++) {
                     for (int j = 0; j < n; j++) {
@@ -30,25 +39,27 @@ public class DesinGraphWithSohortesPathCalc {
         }
 
         public void addEdge(int[] edge) {
-            if (mat[edge[0]][edge[1]] <= edge[2])
-                return;
+            int u = edge[0], v = edge[1], weight = edge[2];
 
-            for (int k = 0; k < n; k++) {
+            // Update the edge weight if the new edge provides a shorter path
+            if (mat[u][v] > weight) {
+                mat[u][v] = weight;
+
+                // Recompute all pairs shortest paths considering the new edge
                 for (int i = 0; i < n; i++) {
                     for (int j = 0; j < n; j++) {
-                        mat[i][j] = Math.min(mat[i][j], mat[i][k] + mat[k][j]);
+                        mat[i][j] = Math.min(mat[i][j], mat[i][u] + weight + mat[v][j]);
                     }
                 }
             }
         }
 
         public int shortestPath(int node1, int node2) {
-            return mat[node1][node2] == Integer.MAX_VALUE ? -1 : mat[node1][node2];
+            return mat[node1][node2] == Integer.MAX_VALUE / 2 ? -1 : mat[node1][node2];
         }
     }
 
     // Dij graph
-
     class Graph1 {
         ArrayList<ArrayList<int[]>> graph;
         int n;
