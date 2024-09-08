@@ -10,31 +10,30 @@ https://leetcode.com/discuss/interview-question/5011090/Google-or-Onsite-or-Bala
 https://leetcode.com/discuss/interview-question/5014822/Google-Phone-Screen-(SDE-II-US)
 https://leetcode.com/discuss/interview-question/5004476/Google-L5-Round-1
 https://leetcode.com/discuss/interview-question/4994055/Google-or-Onsite-or-Allot-people-to-apartment
-https://leetcode.com/discuss/interview-question/4963576/Google-Interview-Question
-https://leetcode.com/discuss/interview-question/4986116/Googleor-L3-or-Jan-2024
-https://leetcode.com/discuss/interview-question/4978447/Google-coding-interview-experience
-https://leetcode.com/discuss/interview-question/4964533/Google-Phone-Interview-Question
-https://leetcode.com/discuss/interview-question/4948927/Google-or-SDE2-or-Phone-Screen
-https://leetcode.com/discuss/interview-question/4955737/Google-phone-screen-question
-https://leetcode.com/discuss/interview-question/4949963/Google-or-SDE-3-or-Phone-Screen
-https://leetcode.com/discuss/interview-question/4949834/Google-or-SDE2-or-Phone-Screen
-https://leetcode.com/discuss/interview-question/4947264/Google-or-Phone-or-Generate-Substrings-and-Append-Characters
-https://leetcode.com/discuss/interview-question/4927705/Google-Interview
-https://leetcode.com/discuss/interview-question/4929501/Google-onsite-Interview
-https://leetcode.com/discuss/interview-question/4874329/Google-onsite-Interview-question
+
+Bipartite : https://leetcode.com/discuss/interview-question/4963576/Google-Interview-Question
+
+Set : https://leetcode.com/discuss/interview-question/4964533/Google-Phone-Interview-Question
+
+Backtracking : https://leetcode.com/discuss/interview-question/4948927/Google-or-SDE2-or-Phone-Screen
+
+Trie : https://leetcode.com/discuss/interview-question/4955737/Google-phone-screen-question
+
+Impossible : https://leetcode.com/discuss/interview-question/4949963/Google-or-SDE-3-or-Phone-Screen
+
 https://leetcode.com/discuss/interview-question/4878435/Google-Telephonic-PhoneScreen-Interview-question
-https://leetcode.com/discuss/interview-question/4878831/Google-onsite-question
-https://leetcode.com/discuss/interview-question/4831503/google-questions/2291792
-https://leetcode.com/discuss/interview-question/4849502/Google-or-Question
-https://leetcode.com/discuss/interview-question/4845526/Google-Interview-Question
-https://leetcode.com/discuss/interview-question/4831503/Google-or-Questions
-https://leetcode.com/discuss/interview-question/4852053/Google-or-Phone-Screen-Round-or-SWE3
-https://leetcode.com/discuss/interview-question/4834179/Google-L4-or-Onsite
-https://leetcode.com/discuss/interview-question/4835565/Google-or-Phone-Interview-or-Banglore-oror-SDE-III-oror-Android-(732024)
-
-https://leetcode.com/discuss/interview-question/4835709/Google-Onsite-matrix-traversal-BFSDFS
 
 
-https://leetcode.com/discuss/interview-question/4817033/Google-or-Phone-Screen-or-2024
-https://leetcode.com/discuss/interview-question/4799918/Interview-Experience
-https://leetcode.com/discuss/interview-question/4947290/google-phone-maximum-total-score
+DP todo : https://leetcode.com/discuss/interview-question/4878831/Google-onsite-question
+DP : https://leetcode.com/problems/odd-even-jump/description/  and  https://leetcode.com/discuss/interview-question/4878831/Google-onsite-question
+DP todo : https://leetcode.com/problems/form-largest-integer-with-digits-that-add-up-to-target/description/   , lC odd even jumps
+DP : https://leetcode.com/discuss/interview-question/4978447/Google-coding-interview-experience
+
+
+All list :      https://leetcode.com/discuss/interview-question/4831503/Google-or-Questions
+All list Sonl : https://leetcode.com/discuss/interview-question/4849502/Google-or-Question
+all que : https://leetcode.com/discuss/interview-question/4831503/google-questions/2291792
+
+BS: https://leetcode.com/discuss/interview-question/4834179/Google-L4-or-Onsite
+
+problems on kadens algo
