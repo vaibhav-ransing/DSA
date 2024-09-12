@@ -1,16 +1,3 @@
-https://leetcode.com/discuss/interview-question/5063427/google-onsite-round-2
-https://leetcode.com/discuss/interview-question/4820505/Google-question/
-https://leetcode.com/discuss/interview-question/5039879/Google-Onsite-Interview
-https://leetcode.com/discuss/interview-question/5031296/Google-or-Technical-Phone-Screen-Round-or-2024
-https://leetcode.com/discuss/interview-question/4314794/GOOGLE-SDE-2-CODING-ROUND-1%3A-Find-the-in-compatible-pair-of-unit-tests/
-https://leetcode.com/discuss/interview-question/4422524/Google-Onsite-interview/2174916
-https://leetcode.com/discuss/interview-question/5031821/Google-or-Phone-or-Senior-Software-Engineer
-https://leetcode.com/discuss/interview-question/5032591/Google-or-Phone-Screen-or-282.-Expression-Add-Operators
-https://leetcode.com/discuss/interview-question/5011090/Google-or-Onsite-or-Balanced-Parentheses-with-Strings-(Unique-Pairing)
-https://leetcode.com/discuss/interview-question/5014822/Google-Phone-Screen-(SDE-II-US)
-https://leetcode.com/discuss/interview-question/5004476/Google-L5-Round-1
-https://leetcode.com/discuss/interview-question/4994055/Google-or-Onsite-or-Allot-people-to-apartment
-
 Bipartite : https://leetcode.com/discuss/interview-question/4963576/Google-Interview-Question
 
 Set : https://leetcode.com/discuss/interview-question/4964533/Google-Phone-Interview-Question
@@ -30,10 +17,11 @@ DP todo : https://leetcode.com/problems/form-largest-integer-with-digits-that-ad
 DP : https://leetcode.com/discuss/interview-question/4978447/Google-coding-interview-experience
 
 
-All list :      https://leetcode.com/discuss/interview-question/4831503/Google-or-Questions
-All list Sonl : https://leetcode.com/discuss/interview-question/4849502/Google-or-Question
-all que : https://leetcode.com/discuss/interview-question/4831503/google-questions/2291792
-
 BS: https://leetcode.com/discuss/interview-question/4834179/Google-L4-or-Onsite
 
 problems on kadens algo
+
+
+
+
+****  All List : https://leetcode.com/discuss/interview-question/4849502/Google-or-Question  ****
