@@ -1,4 +1,4 @@
-package SweepLine;
+package SweepLine.Random;
 
 import java.util.Arrays;
 
