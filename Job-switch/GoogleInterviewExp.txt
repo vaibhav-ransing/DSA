@@ -1,0 +1,50 @@
+So I'm done with all Phone Screening + 3 onsite interviews.
+What do you thing odds are on my side?
+Cannot disclose the questions :)
+
+
+Phone Screening:
+
+
+A Tree based DFS question with 2 followups (med-hard)
+Solved it pretty quick missed an edge case but got through it.
+Onsite 1: (Best round)
+
+
+It was a DP question, spicy variation on LIS + 2 followups
+Best round I would say, we had 10 min left even after coding the folloups
+Self Verdict : Strong Hire
+Onsite 2: (Hell round)
+
+
+It was a hashmap easy-med question but the question was so vague it took 5-10 min to clarify the requirenemnt, but solved it with required complexity.
+But the follow-up question OMFG (Interviewer just said look at you code and figure out the issue from production point of view, I was trying to get the hints but got none)
+I spent like 10+ min see is there any issue with the code and there was none
+So I asked him again like what exactly are we looking for then he said Just look (Crying Emoji).
+Then idk how I said MLE issue might occur in map, and then he finally said "umm umm what can you do about it"
+I got what he exactly wanted but by that time only 10 min were left, so panicked a little. But came up with optimal solution, the coding part was messed up.
+I wrote the code within like 3 min left on clock, It was messy (I missed Linked-list null pointer check) and also the way I used inbuilt Linkedlist of Java was incorrect, but logically my followup approach was 100% correct.
+We did a quick dry run logically (not refering to code) and it looked ok.
+Since we were done with the time, I'm not sure if he had any more questions for me.
+Self Verdict: lean no hire/ lean hire
+Onsite 3: (Decent-good round)
+
+
+So it was a graph question (med-hard), It could be solved with DFS/ BFS.
+The followup was tricky (DFS/ BFS + DP)
+So we had our discussion and I explained him my approach, it seemed ok, but I was not able to put it in words cause obviously recursion.
+We mostly had discussion around this question
+Some Mistakes during discurssion
+At first I said TC : V + E, then
+he asked what would be E (which I said it should be n, but corrected it later to n*(n-1))
+Then little bit more dry run and I realized that TC would be V * E (withoud DP)
+Then Again like 3 min later I said no TC will be V + E
+So without DP it was (V * E)
+With DP it was (V + E)
+Interviewer was very helpfull and in the end we agreed on O(V + E)
+There was no time left to code the followup (I felt interviewer was more inclined towards discussion rather than code, not sure if he also wanted me to code it)
+Self Verdict Lean-Hire/ Hire
+Googliness
+
+
+Self Verdict: Strong Hire

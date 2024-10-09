@@ -27,7 +27,7 @@ public class CountFertilePyramidsLands {
         if (row < 0 || row >= grid.length || left < 0 || right < 0 || left >= grid[0].length || right >= grid[0].length)
             return 0;
 
-        if (prefix[row][right] - (left == 0 ? 0 : prefix[row][left - 1]) != right - left)
+        if (prefix[row][right] - (left == 0 ? 0 : prefix[row][left - 1]) != right - left + 1)
             return 0;
 
         int goDown = isPyramid(row + 1, left - 1, right + 1, grid, prefix);
